@@ -1,0 +1,75 @@
+// ─────────────────────────────── Compliance per framework ─────────────────
+//
+// A control is "compliant" for a given agent when NO open violation
+// references that (agent_id, control_id) pair. The percentage rolls up
+// over the active filter context (typically framework selected on a
+// matrix or slicer).
+
+Control Has Open Violation =
+CALCULATE(
+    INT( COUNTROWS( fact_violation ) > 0 ),
+    fact_violation[status] IN { "open", "in_progress" }
+)
+
+Controls In Scope =
+COUNTROWS(
+    CROSSJOIN(
+        VALUES( dim_agent[agent_id] ),
+        VALUES( dim_control[control_id] )
+    )
+)
+
+Controls With Open Violation =
+COUNTROWS(
+    FILTER(
+        CROSSJOIN(
+            VALUES( dim_agent[agent_id] ),
+            VALUES( dim_control[control_id] )
+        ),
+        [Control Has Open Violation] = 1
+    )
+)
+
+Compliance % =
+DIVIDE(
+    [Controls In Scope] - [Controls With Open Violation],
+    [Controls In Scope]
+)
+
+// ─────────────────────────────── Per-framework summary ─────────────────────
+Compliance % OWASP =
+CALCULATE( [Compliance %], dim_framework[framework_id] = "FW-OWASP" )
+
+Compliance % ATLAS =
+CALCULATE( [Compliance %], dim_framework[framework_id] = "FW-ATLAS" )
+
+Compliance % NIST =
+CALCULATE( [Compliance %], dim_framework[framework_id] = "FW-NIST" )
+
+Compliance % EU AI Act =
+CALCULATE( [Compliance %], dim_framework[framework_id] = "FW-EUAI" )
+
+Compliance % ISO 42001 =
+CALCULATE( [Compliance %], dim_framework[framework_id] = "FW-ISO" )
+
+// ─────────────────────────────── Design vs runtime split ──────────────────
+// Some controls map to design-time governance, others to runtime defences.
+// The dim_control[design_or_runtime] column lets us slice compliance
+// posture along that axis.
+
+Compliance % Design =
+CALCULATE( [Compliance %], dim_control[design_or_runtime] = "design" )
+
+Compliance % Runtime =
+CALCULATE( [Compliance %], dim_control[design_or_runtime] = "runtime" )
+
+// ─────────────────────────────── Coverage heatmap ──────────────────────────
+// For each (agent, control) pair, returns 0 if violation exists else 1.
+// Drop into a Matrix visual: rows = agent, cols = control_code, values =
+// Coverage Cell, conditional formatting on the value drives the heatmap.
+
+Coverage Cell =
+IF( [Control Has Open Violation] = 1, 0, 1 )
+
+Coverage Cell Color =
+IF( [Coverage Cell] = 1, "#548235", "#C00000" )

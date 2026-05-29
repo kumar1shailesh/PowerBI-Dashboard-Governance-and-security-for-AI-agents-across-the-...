@@ -1,0 +1,7 @@
+code,title,risk_tier,description
+ART-9,Risk management system,High-risk,"Article 9. Providers of high-risk AI systems must establish, implement, document and maintain a risk management system across the lifecycle."
+ART-10,Data and data governance,High-risk,"Article 10. Training, validation, and test datasets shall be relevant, representative, free of errors, complete, and properly documented."
+ART-13,Transparency to deployers,High-risk,"Article 13. Providers must give deployers concise, complete, correct, and clear information about the AI system."
+ART-14,Human oversight,High-risk,"Article 14. High-risk AI systems shall be designed and developed so that they can be effectively overseen by humans."
+ART-15,Accuracy robustness cybersecurity,High-risk,"Article 15. Appropriate level of accuracy, robustness, and cybersecurity throughout the lifecycle."
+ART-50,Transparency obligations for GP AI,GPAI,"Article 50. General-purpose AI providers — model card, training summary, copyright compliance documentation."

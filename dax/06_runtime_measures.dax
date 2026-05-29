@@ -1,0 +1,72 @@
+// ─────────────────────────────── Runtime events ───────────────────────────
+Total Runtime Events =
+COUNTROWS( fact_runtime_event )
+
+Runtime Events 7D =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[event_ts] >= TODAY() - 7
+)
+
+Runtime Events 30D =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[event_ts] >= TODAY() - 30
+)
+
+// ─────────────────────────────── Block rate ────────────────────────────────
+// Share of runtime attacks the guardrails successfully blocked.
+
+Blocked Events =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[blocked] = TRUE()
+)
+
+Block Rate % =
+DIVIDE( [Blocked Events], [Total Runtime Events] )
+
+// ─────────────────────────────── Attack-class counters ─────────────────────
+Prompt Injection Attempts =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[event_type] = "prompt_injection_attempt"
+)
+
+Jailbreak Attempts =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[event_type] = "jailbreak_attempt"
+)
+
+Tool Misuse Blocks =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[event_type] = "tool_misuse_blocked"
+)
+
+PII Leak Blocks =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[event_type] = "pii_leak_blocked"
+)
+
+System Prompt Leak Incidents =
+CALCULATE(
+    [Total Runtime Events],
+    fact_runtime_event[event_type] = "system_prompt_disclosed"
+)
+
+// ─────────────────────────────── Sparkline support ─────────────────────────
+// Drop this into the secondary axis of a Card / KPI visual so leadership
+// sees the 30-day trend at a glance.
+
+Runtime Events Trend Value =
+[Total Runtime Events]
+
+// ─────────────────────────────── Per-agent rates ──────────────────────────
+Attacks Per Agent 30D =
+DIVIDE(
+    [Runtime Events 30D],
+    DISTINCTCOUNT( fact_runtime_event[agent_id] )
+)

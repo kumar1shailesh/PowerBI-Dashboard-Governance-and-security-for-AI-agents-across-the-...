@@ -1,0 +1,108 @@
+// ─────────────────────────────── Violation counts ──────────────────────────
+Total Violations =
+COUNTROWS( fact_violation )
+
+Open Violations =
+CALCULATE(
+    COUNTROWS( fact_violation ),
+    fact_violation[status] IN { "open", "in_progress" }
+)
+
+Remediated Violations =
+CALCULATE(
+    COUNTROWS( fact_violation ),
+    fact_violation[status] = "remediated"
+)
+
+Accepted Risk Violations =
+CALCULATE(
+    COUNTROWS( fact_violation ),
+    fact_violation[status] = "accepted_risk"
+)
+
+False Positives =
+CALCULATE(
+    COUNTROWS( fact_violation ),
+    fact_violation[status] = "false_positive"
+)
+
+// ─────────────────────────────── MTTR ──────────────────────────────────────
+// Mean time to remediate, in days, computed only over rows that have been
+// remediated. Uses the difference between completed and detected dates.
+MTTR Days =
+VAR Remed =
+    FILTER(
+        fact_violation,
+        fact_violation[status] = "remediated"
+        && NOT( ISBLANK( fact_violation[remediation_completed_date] ) )
+    )
+RETURN
+    AVERAGEX(
+        Remed,
+        DATEDIFF(
+            fact_violation[detected_date],
+            fact_violation[remediation_completed_date],
+            DAY
+        )
+    )
+
+MTTR Critical Days =
+CALCULATE( [MTTR Days], fact_violation[severity] = "Critical" )
+
+MTTR High Days =
+CALCULATE( [MTTR Days], fact_violation[severity] = "High" )
+
+// ─────────────────────────────── SLA breach ────────────────────────────────
+// A violation is in SLA breach if it is still open AND its
+// remediation_due_date is before today.
+SLA Breach Count =
+VAR Today = TODAY()
+RETURN
+    CALCULATE(
+        COUNTROWS( fact_violation ),
+        fact_violation[status] IN { "open", "in_progress" },
+        fact_violation[remediation_due_date] < Today
+    )
+
+SLA Breach % =
+DIVIDE( [SLA Breach Count], [Open Violations] )
+
+// ─────────────────────────────── Aging buckets ─────────────────────────────
+// Bucket the open violations by days since detection.
+Open Violations 0-7d =
+VAR Today = TODAY()
+RETURN
+    CALCULATE(
+        COUNTROWS( fact_violation ),
+        fact_violation[status] IN { "open", "in_progress" },
+        fact_violation[detected_date] >= Today - 7
+    )
+
+Open Violations 8-30d =
+VAR Today = TODAY()
+RETURN
+    CALCULATE(
+        COUNTROWS( fact_violation ),
+        fact_violation[status] IN { "open", "in_progress" },
+        fact_violation[detected_date] < Today - 7,
+        fact_violation[detected_date] >= Today - 30
+    )
+
+Open Violations 31-90d =
+VAR Today = TODAY()
+RETURN
+    CALCULATE(
+        COUNTROWS( fact_violation ),
+        fact_violation[status] IN { "open", "in_progress" },
+        fact_violation[detected_date] < Today - 30,
+        fact_violation[detected_date] >= Today - 90
+    )
+
+Open Violations 91d+ =
+VAR Today = TODAY()
+RETURN
+    CALCULATE(
+        COUNTROWS( fact_violation ),
+        fact_violation[status] IN { "open", "in_progress" },
+        fact_violation[detected_date] < Today - 90
+    )

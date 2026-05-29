@@ -1,0 +1,19 @@
+# Build artifacts
+__pycache__/
+*.pyc
+*.log
+.venv/
+venv/
+
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Power BI temp / backup files
+*.tmp
+*.bak
+*.ldf
+
+# Generated CSVs are committed; replace with `.gitignore` data/ in your fork
+# if you only want to commit the model + DAX and treat data as transient.

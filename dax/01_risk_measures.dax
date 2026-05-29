@@ -1,0 +1,126 @@
+// ─────────────────────────────── Risk score per agent ──────────────────────
+//
+// Composite weighted score, 0-100. Higher is worse.
+// Formula:
+//   Risk = 35% * (open critical+high violations, capped at 10)
+//        + 25% * (overdue SLA breaches, capped at 5)
+//        + 15% * (runtime attack attempts last 30d, capped at 200)
+//        + 15% * (criticality multiplier — Critical=1.0, High=0.7, Medium=0.4, Low=0.2)
+//        +  5% * (excessive-agency design findings open)
+//        +  5% * (tool count > 6 indicator)
+//
+// All measures live below as building blocks so Power BI can show each lever.
+
+Open Critical High Violations =
+CALCULATE(
+    COUNTROWS( fact_violation ),
+    fact_violation[status] IN { "open", "in_progress" },
+    fact_violation[severity] IN { "Critical", "High" }
+)
+
+SLA Breaches =
+VAR Today = TODAY()
+RETURN
+    CALCULATE(
+        COUNTROWS( fact_violation ),
+        fact_violation[status] IN { "open", "in_progress" },
+        fact_violation[remediation_due_date] < Today
+    )
+
+Runtime Attack Attempts 30D =
+VAR Cutoff = TODAY() - 30
+RETURN
+    CALCULATE(
+        COUNTROWS( fact_runtime_event ),
+        fact_runtime_event[event_ts] >= Cutoff,
+        fact_runtime_event[event_type] IN {
+            "prompt_injection_attempt", "jailbreak_attempt",
+            "tool_misuse_blocked", "system_prompt_disclosed"
+        }
+    )
+
+Open Excessive Agency Findings =
+CALCULATE(
+    COUNTROWS( fact_design_finding ),
+    fact_design_finding[status] IN { "open", "in_progress" },
+    SEARCH( "tools wildcard", fact_design_finding[title], 1, 0 ) > 0
+        || SEARCH( "human-in-the-loop", fact_design_finding[title], 1, 0 ) > 0
+)
+
+Criticality Multiplier =
+SWITCH(
+    SELECTEDVALUE( dim_agent[criticality] ),
+    "Critical", 1.0,
+    "High",     0.7,
+    "Medium",   0.4,
+    "Low",      0.2,
+    0.4
+)
+
+Tools Count Indicator =
+VAR Tools = SELECTEDVALUE( dim_agent[tools_count], 0 )
+RETURN IF( Tools > 6, 1, 0 )
+
+Risk Score =
+VAR OpenCH    = MIN( [Open Critical High Violations], 10 )
+VAR SLABr     = MIN( [SLA Breaches], 5 )
+VAR Attempts  = MIN( [Runtime Attack Attempts 30D], 200 )
+VAR ExAgency  = MIN( [Open Excessive Agency Findings], 5 )
+VAR CritMult  = [Criticality Multiplier]
+VAR ToolsInd  = [Tools Count Indicator]
+RETURN
+    ROUND(
+        100 * (
+              0.35 * ( OpenCH / 10 )
+            + 0.25 * ( SLABr / 5 )
+            + 0.15 * ( Attempts / 200 )
+            + 0.15 * CritMult
+            + 0.05 * ( ExAgency / 5 )
+            + 0.05 * ToolsInd
+        ),
+    1)
+
+Risk Bucket =
+VAR R = [Risk Score]
+RETURN
+    SWITCH( TRUE(),
+        R >= 75, "Critical",
+        R >= 50, "High",
+        R >= 25, "Medium",
+        "Low"
+    )
+
+Risk Color =
+SWITCH( [Risk Bucket],
+    "Critical", "#C00000",
+    "High",     "#E97132",
+    "Medium",   "#FFC000",
+    "Low",      "#548235"
+)
+
+// ───── Portfolio-level rollups (no filter context on agent) ────────────────
+Critical Agents Count =
+COUNTROWS(
+    FILTER(
+        VALUES( dim_agent[agent_id] ),
+        [Risk Bucket] = "Critical"
+    )
+)
+
+High Risk Agents Count =
+COUNTROWS(
+    FILTER(
+        VALUES( dim_agent[agent_id] ),
+        [Risk Bucket] IN { "Critical", "High" }
+    )
+)
+
+Avg Portfolio Risk =
+AVERAGEX( VALUES( dim_agent[agent_id] ), [Risk Score] )
+
+Top 5 Risky Agents Label =
+CONCATENATEX(
+    TOPN( 5, VALUES( dim_agent[name] ), [Risk Score], DESC ),
+    dim_agent[name] & " (" & FORMAT( [Risk Score], "0.0" ) & ")",
+    UNICHAR(10)
+)

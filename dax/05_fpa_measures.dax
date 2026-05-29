@@ -1,0 +1,117 @@
+// ─────────────────────────────── Function-Point Analysis (FPA) ───────────
+//
+// Each open violation carries an `fpa_complexity` of S / M / L / XL. The
+// dashboard maps complexity → function-point hours using a configurable
+// table created via "Enter Data". If you don't want to add a table:
+//
+//   1. Use the inline SWITCH versions below (no extra table needed).
+//   2. Or, create `dim_fpa_complexity` with columns:
+//        complexity (S, M, L, XL)
+//        hours_per_point (e.g. 2, 6, 16, 40)
+//      and write:  hours = LOOKUPVALUE( dim_fpa_complexity[hours_per_point], ... )
+//
+// The HourlyRateUSD what-if parameter (see 00_overview.md) feeds the cost
+// measure so the operator can drag a slider to see the budget impact.
+
+FPA Hours Per Violation =
+SWITCH(
+    fact_violation[fpa_complexity],
+    "S",  2,
+    "M",  6,
+    "L",  16,
+    "XL", 40,
+    4
+)
+
+FPA Hours Total =
+SUMX(
+    FILTER(
+        fact_violation,
+        fact_violation[status] IN { "open", "in_progress" }
+    ),
+    [FPA Hours Per Violation]
+)
+
+FPA Hours Critical =
+CALCULATE(
+    [FPA Hours Total],
+    fact_violation[severity] = "Critical"
+)
+
+FPA Hours High =
+CALCULATE(
+    [FPA Hours Total],
+    fact_violation[severity] = "High"
+)
+
+// ─────────────────────────────── Cost estimate ─────────────────────────────
+// Uses the HourlyRateUSD what-if parameter. Replace SELECTEDVALUE(...) with
+// a hard-coded rate if you don't want the parameter.
+
+FPA Estimated Cost USD =
+[FPA Hours Total] * SELECTEDVALUE( 'HourlyRateUSD'[HourlyRateUSD], 75 )
+
+FPA Estimated Cost USD Card =
+"$" & FORMAT( [FPA Estimated Cost USD], "#,##0" )
+
+// ─────────────────────────────── Capacity planning ─────────────────────────
+// Given a team capacity (hours/week), how many weeks to clear the backlog?
+
+FPA Weeks To Clear =
+DIVIDE(
+    [FPA Hours Total],
+    SELECTEDVALUE( 'TeamCapacityHrsPerWeek'[TeamCapacityHrsPerWeek], 120 )
+)
+
+FPA Weeks To Clear Card =
+FORMAT( [FPA Weeks To Clear], "0.0" ) & " weeks"
+
+// ─────────────────────────────── Breakdowns ────────────────────────────────
+// Group the totals so a chart can show "where the effort goes".
+
+FPA Hours By Framework =
+SUMX(
+    FILTER(
+        fact_violation,
+        fact_violation[status] IN { "open", "in_progress" }
+    ),
+    [FPA Hours Per Violation]
+)
+// Drop into a column chart with `dim_framework[name]` on the axis.
+
+FPA Hours By Business Unit =
+SUMX(
+    FILTER(
+        fact_violation,
+        fact_violation[status] IN { "open", "in_progress" }
+    ),
+    [FPA Hours Per Violation]
+)
+// Drop into a column chart with `dim_agent[business_unit]` on the axis.
+
+// ─────────────────────────────── Remediation velocity ──────────────────────
+// Hours closed per week — momentum metric for ops review.
+
+FPA Hours Closed 7D =
+CALCULATE(
+    SUMX(
+        FILTER(
+            fact_violation,
+            fact_violation[status] = "remediated"
+            && fact_violation[remediation_completed_date] >= TODAY() - 7
+        ),
+        [FPA Hours Per Violation]
+    )
+)
+
+FPA Hours Closed 30D =
+CALCULATE(
+    SUMX(
+        FILTER(
+            fact_violation,
+            fact_violation[status] = "remediated"
+            && fact_violation[remediation_completed_date] >= TODAY() - 30
+        ),
+        [FPA Hours Per Violation]
+    )
+)

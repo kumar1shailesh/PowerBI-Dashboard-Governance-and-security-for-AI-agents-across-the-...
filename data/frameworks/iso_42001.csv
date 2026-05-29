@@ -1,0 +1,5 @@
+code,title,clause,description
+8.2,AI System Impact Assessment,Operation,"Organisation shall perform AI system impact assessments at planned intervals."
+8.3,AI System Data Management,Operation,"Organisation shall document AI system data lifecycle: collection, preparation, labelling, processing, distribution, retention."
+8.4,AI System Lifecycle Information,Operation,"Organisation shall document AI system lifecycle information enabling traceability."
+9.4,AI System Monitoring & Review,Performance Evaluation,"Organisation shall monitor AI system performance and review effectiveness of AIMS controls."

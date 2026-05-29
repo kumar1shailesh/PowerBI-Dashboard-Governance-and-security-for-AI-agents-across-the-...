@@ -1,0 +1,61 @@
+agent_id,name,platform,business_unit,owner,criticality,environment,deployed_date,tools_count,uses_rag,uses_internet,data_classification
+AGT-0001,Microsoft-FIN-001,Microsoft Copilot,Finance,owner1@example.com,Medium,prod,2025-03-13,11,True,True,Internal
+AGT-0002,Microsoft-FIN-002,Microsoft Copilot,Finance,owner2@example.com,Critical,prod,2025-11-05,0,True,False,Internal
+AGT-0003,Custom-MAR-003,Custom Agent,Marketing,owner3@example.com,Low,prod,2026-02-17,2,False,False,Internal
+AGT-0004,Anthropic-CUS-004,Anthropic Claude,Customer Support,owner4@example.com,High,prod,2025-07-03,5,False,True,Confidential
+AGT-0005,Custom-HR-005,Custom Agent,HR,owner5@example.com,Low,prod,2025-10-10,4,False,True,Confidential
+AGT-0006,Microsoft-SAL-006,Microsoft Copilot,Sales,owner6@example.com,Medium,dev,2026-03-14,3,True,False,Internal
+AGT-0007,OpenAI-ENG-007,OpenAI Assistants,Engineering,owner7@example.com,High,prod,2025-05-17,11,True,True,Internal
+AGT-0008,Anthropic-ENG-008,Anthropic Claude,Engineering,owner8@example.com,Medium,prod,2026-04-19,10,True,False,Confidential
+AGT-0009,Microsoft-SAL-009,Microsoft Copilot,Sales,owner9@example.com,Low,dev,2025-07-25,4,True,True,Restricted
+AGT-0010,Custom-CUS-010,Custom Agent,Customer Support,owner10@example.com,High,prod,2026-03-29,10,False,True,Internal
+AGT-0011,Anthropic-MAR-011,Anthropic Claude,Marketing,owner11@example.com,Medium,prod,2025-10-26,6,False,True,Restricted
+AGT-0012,Anthropic-RIS-012,Anthropic Claude,Risk & Compliance,owner12@example.com,Critical,prod,2025-02-26,2,True,False,Internal
+AGT-0013,LangGraph-LEG-013,LangGraph,Legal,owner13@example.com,Medium,prod,2025-05-09,8,True,True,Confidential
+AGT-0014,Custom-MAR-014,Custom Agent,Marketing,owner14@example.com,Medium,prod,2025-05-31,6,True,False,Public
+AGT-0015,OpenAI-ENG-015,OpenAI Assistants,Engineering,owner15@example.com,Medium,prod,2025-11-17,4,True,True,Internal
+AGT-0016,Anthropic-FIN-016,Anthropic Claude,Finance,owner16@example.com,Medium,prod,2025-02-27,5,False,True,Public
+AGT-0017,Custom-HR-017,Custom Agent,HR,owner17@example.com,Critical,prod,2025-02-05,12,True,True,Confidential
+AGT-0018,Custom-ENG-018,Custom Agent,Engineering,owner18@example.com,High,dev,2025-08-05,3,True,False,Internal
+AGT-0019,OpenAI-RIS-019,OpenAI Assistants,Risk & Compliance,owner19@example.com,Low,prod,2025-05-07,3,True,False,Public
+AGT-0020,Custom-SAL-020,Custom Agent,Sales,owner20@example.com,Medium,prod,2025-12-29,10,True,True,Public
+AGT-0021,Microsoft-CUS-021,Microsoft Copilot,Customer Support,owner21@example.com,Critical,prod,2025-12-09,7,True,True,Confidential
+AGT-0022,Custom-RIS-022,Custom Agent,Risk & Compliance,owner22@example.com,High,prod,2025-07-28,3,True,True,Confidential
+AGT-0023,OpenAI-LEG-023,OpenAI Assistants,Legal,owner23@example.com,Medium,dev,2025-01-28,10,True,True,Internal
+AGT-0024,OpenAI-HR-024,OpenAI Assistants,HR,owner24@example.com,High,prod,2025-08-18,2,False,True,Internal
+AGT-0025,Anthropic-HR-025,Anthropic Claude,HR,owner25@example.com,Medium,dev,2025-10-09,1,True,True,Restricted
+AGT-0026,Anthropic-ENG-026,Anthropic Claude,Engineering,owner26@example.com,Medium,prod,2026-03-19,6,True,True,Internal
+AGT-0027,LangGraph-MAR-027,LangGraph,Marketing,owner27@example.com,Low,dev,2025-05-27,6,False,True,Public
+AGT-0028,Anthropic-FIN-028,Anthropic Claude,Finance,owner28@example.com,Medium,uat,2026-01-18,5,True,True,Internal
+AGT-0029,Custom-ENG-029,Custom Agent,Engineering,owner29@example.com,Critical,uat,2026-03-12,2,True,True,Confidential
+AGT-0030,Anthropic-LEG-030,Anthropic Claude,Legal,owner30@example.com,High,dev,2025-05-07,9,True,True,Internal
+AGT-0031,Custom-CUS-031,Custom Agent,Customer Support,owner31@example.com,Low,prod,2026-01-02,5,True,False,Internal
+AGT-0032,OpenAI-RIS-032,OpenAI Assistants,Risk & Compliance,owner32@example.com,High,dev,2025-02-07,0,False,True,Public
+AGT-0033,Anthropic-MAR-033,Anthropic Claude,Marketing,owner33@example.com,High,prod,2025-02-05,3,False,False,Public
+AGT-0034,Custom-MAR-034,Custom Agent,Marketing,owner34@example.com,Medium,dev,2025-12-01,8,True,False,Restricted
+AGT-0035,Microsoft-ENG-035,Microsoft Copilot,Engineering,owner35@example.com,High,dev,2026-01-16,8,True,False,Internal
+AGT-0036,Anthropic-CUS-036,Anthropic Claude,Customer Support,owner36@example.com,High,uat,2025-05-16,8,False,False,Restricted
+AGT-0037,Microsoft-HR-037,Microsoft Copilot,HR,owner37@example.com,Medium,dev,2025-01-23,0,False,True,Confidential
+AGT-0038,OpenAI-ENG-038,OpenAI Assistants,Engineering,owner38@example.com,Medium,uat,2025-08-07,8,True,True,Public
+AGT-0039,Anthropic-FIN-039,Anthropic Claude,Finance,owner39@example.com,Low,uat,2025-03-17,6,True,True,Internal
+AGT-0040,Microsoft-CUS-040,Microsoft Copilot,Customer Support,owner40@example.com,High,prod,2025-02-22,5,False,True,Restricted
+AGT-0041,Anthropic-ENG-041,Anthropic Claude,Engineering,owner41@example.com,Low,dev,2026-03-28,6,True,True,Confidential
+AGT-0042,OpenAI-LEG-042,OpenAI Assistants,Legal,owner42@example.com,Low,dev,2026-02-20,3,False,True,Confidential
+AGT-0043,Microsoft-LEG-043,Microsoft Copilot,Legal,owner43@example.com,Low,dev,2025-04-24,3,False,False,Internal
+AGT-0044,Anthropic-SAL-044,Anthropic Claude,Sales,owner44@example.com,Critical,prod,2025-06-18,4,True,False,Internal
+AGT-0045,Custom-LEG-045,Custom Agent,Legal,owner45@example.com,Medium,dev,2025-06-19,0,True,False,Public
+AGT-0046,OpenAI-FIN-046,OpenAI Assistants,Finance,owner46@example.com,High,prod,2026-01-09,12,False,False,Confidential
+AGT-0047,Custom-HR-047,Custom Agent,HR,owner47@example.com,High,uat,2025-05-11,0,False,True,Internal
+AGT-0048,Custom-SAL-048,Custom Agent,Sales,owner48@example.com,High,prod,2025-12-07,5,False,True,Confidential
+AGT-0049,OpenAI-MAR-049,OpenAI Assistants,Marketing,owner49@example.com,Medium,prod,2025-12-23,4,True,True,Internal
+AGT-0050,LangGraph-ENG-050,LangGraph,Engineering,owner50@example.com,Medium,prod,2025-10-08,0,False,False,Internal
+AGT-0051,Custom-CUS-051,Custom Agent,Customer Support,owner51@example.com,Medium,prod,2025-04-20,8,False,True,Confidential
+AGT-0052,OpenAI-CUS-052,OpenAI Assistants,Customer Support,owner52@example.com,Critical,dev,2025-05-01,10,False,True,Confidential
+AGT-0053,Anthropic-FIN-053,Anthropic Claude,Finance,owner53@example.com,Critical,dev,2025-11-09,12,True,False,Internal
+AGT-0054,Custom-SAL-054,Custom Agent,Sales,owner54@example.com,Medium,prod,2025-07-24,3,True,True,Confidential
+AGT-0055,Microsoft-LEG-055,Microsoft Copilot,Legal,owner55@example.com,High,dev,2025-12-23,8,False,True,Internal
+AGT-0056,Microsoft-RIS-056,Microsoft Copilot,Risk & Compliance,owner56@example.com,High,prod,2025-09-29,8,False,False,Confidential
+AGT-0057,Custom-LEG-057,Custom Agent,Legal,owner57@example.com,Low,uat,2026-04-05,2,False,False,Internal
+AGT-0058,Anthropic-MAR-058,Anthropic Claude,Marketing,owner58@example.com,Medium,uat,2025-11-17,3,False,False,Public
+AGT-0059,OpenAI-SAL-059,OpenAI Assistants,Sales,owner59@example.com,High,prod,2025-10-04,1,True,True,Internal
+AGT-0060,Anthropic-SAL-060,Anthropic Claude,Sales,owner60@example.com,Critical,prod,2025-10-05,7,False,True,Internal

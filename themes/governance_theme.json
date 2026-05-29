@@ -1,0 +1,120 @@
+{
+  "name": "AI Agent Governance — Leadership",
+  "dataColors": [
+    "#1F4E79",
+    "#2E75B6",
+    "#5B9BD5",
+    "#9DC3E6",
+    "#548235",
+    "#A9D08E",
+    "#FFC000",
+    "#E97132",
+    "#C00000",
+    "#7030A0"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1F1F1F",
+  "tableAccent": "#1F4E79",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 18,
+      "color": "#1F4E79"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 12,
+      "color": "#1F4E79"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#1F1F1F"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 32,
+      "color": "#1F4E79"
+    },
+    "kpiAxis": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#5B5B5B"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#D9D9D9" } },
+            "radius": 6
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontColor": { "solid": { "color": "#1F4E79" } },
+            "fontSize": 14,
+            "fontFamily": "Segoe UI Semibold"
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          { "color": { "solid": { "color": "#F4F6F9" } } }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "labels": [
+          {
+            "fontFamily": "Segoe UI Semibold",
+            "fontSize": 26,
+            "color": { "solid": { "color": "#1F4E79" } }
+          }
+        ],
+        "categoryLabels": [
+          {
+            "fontFamily": "Segoe UI",
+            "fontSize": 10,
+            "color": { "solid": { "color": "#5B5B5B" } }
+          }
+        ]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "grid": [
+          {
+            "gridHorizontal": true,
+            "gridHorizontalColor": { "solid": { "color": "#E8EAED" } },
+            "outlineColor": { "solid": { "color": "#D9D9D9" } },
+            "outlineWeight": 1,
+            "rowPadding": 6
+          }
+        ]
+      }
+    }
+  },
+  "semanticColors": {
+    "critical": "#C00000",
+    "high":     "#E97132",
+    "medium":   "#FFC000",
+    "low":      "#2E75B6",
+    "info":     "#7F7F7F",
+    "compliant":    "#548235",
+    "noncompliant": "#C00000"
+  }
+}

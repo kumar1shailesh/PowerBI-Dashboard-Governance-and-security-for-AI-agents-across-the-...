@@ -1,0 +1,41 @@
+{
+  "_comment": "Sample response shape for the REST API connector. See power_query/connect_rest_api.pq.",
+  "violations": [
+    {
+      "violation_id": "VIO-00001",
+      "agent_id": "AGT-0001",
+      "control_id": "FW-OWASP-LLM06",
+      "detected_date": "2026-05-15",
+      "severity": "Critical",
+      "status": "open",
+      "remediation_due_date": "2026-05-18",
+      "remediation_completed_date": null,
+      "fpa_complexity": "L"
+    }
+  ],
+  "agents": [
+    {
+      "agent_id": "AGT-0001",
+      "name": "Copilot-FIN-001",
+      "platform": "Microsoft Copilot",
+      "business_unit": "Finance",
+      "owner": "owner1@example.com",
+      "criticality": "Critical",
+      "environment": "prod",
+      "deployed_date": "2025-09-15",
+      "tools_count": 8,
+      "uses_rag": true,
+      "uses_internet": false,
+      "data_classification": "Restricted"
+    }
+  ],
+  "runtime_events": [
+    {
+      "event_ts": "2026-05-30T14:23:11",
+      "agent_id": "AGT-0001",
+      "event_type": "prompt_injection_attempt",
+      "severity": "High",
+      "blocked": true
+    }
+  ]
+}

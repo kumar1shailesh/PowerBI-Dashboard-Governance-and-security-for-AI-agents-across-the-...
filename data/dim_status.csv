@@ -1,0 +1,6 @@
+status,color_hex
+open,#C00000
+in_progress,#E97132
+remediated,#548235
+accepted_risk,#7030A0
+false_positive,#7F7F7F

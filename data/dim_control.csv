@@ -1,0 +1,37 @@
+control_id,framework_id,control_code,title,design_or_runtime
+FW-OWASP-LLM01,FW-OWASP,LLM01,Prompt Injection,runtime
+FW-OWASP-LLM02,FW-OWASP,LLM02,Sensitive Information Disclosure,runtime
+FW-OWASP-LLM03,FW-OWASP,LLM03,Supply Chain,design
+FW-OWASP-LLM04,FW-OWASP,LLM04,Data and Model Poisoning,design
+FW-OWASP-LLM05,FW-OWASP,LLM05,Improper Output Handling,runtime
+FW-OWASP-LLM06,FW-OWASP,LLM06,Excessive Agency,design
+FW-OWASP-LLM07,FW-OWASP,LLM07,System Prompt Leakage,runtime
+FW-OWASP-LLM08,FW-OWASP,LLM08,Vector and Embedding Weaknesses,design
+FW-OWASP-LLM09,FW-OWASP,LLM09,Misinformation,runtime
+FW-OWASP-LLM10,FW-OWASP,LLM10,Unbounded Consumption,runtime
+FW-ATLAS-AML.T0051,FW-ATLAS,AML.T0051,LLM Prompt Injection,runtime
+FW-ATLAS-AML.T0048,FW-ATLAS,AML.T0048,Erode ML Model Integrity,runtime
+FW-ATLAS-AML.T0043,FW-ATLAS,AML.T0043,Craft Adversarial Data,runtime
+FW-ATLAS-AML.T0049,FW-ATLAS,AML.T0049,Exploit Public-Facing Application,runtime
+FW-ATLAS-AML.T0053,FW-ATLAS,AML.T0053,LLM Plugin Compromise,design
+FW-ATLAS-AML.T0054,FW-ATLAS,AML.T0054,LLM Jailbreak,runtime
+FW-ATLAS-AML.T0040,FW-ATLAS,AML.T0040,ML Model Inference API Access,design
+FW-ATLAS-AML.T0044,FW-ATLAS,AML.T0044,Full ML Model Access,design
+FW-ATLAS-AML.T0024,FW-ATLAS,AML.T0024,Exfiltration via ML Inference API,runtime
+FW-ATLAS-AML.T0057,FW-ATLAS,AML.T0057,LLM Data Leakage,runtime
+FW-NIST-GOVERN-1.1,FW-NIST,GOVERN-1.1,Governance policies are in place,design
+FW-NIST-MAP-2.3,FW-NIST,MAP-2.3,Scientific integrity & TEVV considerations,design
+FW-NIST-MEASURE-2.7,FW-NIST,MEASURE-2.7,AI system security & resilience tested,runtime
+FW-NIST-MEASURE-2.11,FW-NIST,MEASURE-2.11,Privacy risk identified and managed,runtime
+FW-NIST-MANAGE-1.3,FW-NIST,MANAGE-1.3,Responses to AI risks documented,design
+FW-NIST-MANAGE-4.1,FW-NIST,MANAGE-4.1,Post-deployment monitoring planned,runtime
+FW-EUAI-ART-9,FW-EUAI,ART-9,Risk management system,design
+FW-EUAI-ART-10,FW-EUAI,ART-10,Data and data governance,design
+FW-EUAI-ART-13,FW-EUAI,ART-13,Transparency to deployers,design
+FW-EUAI-ART-14,FW-EUAI,ART-14,Human oversight,runtime
+FW-EUAI-ART-15,FW-EUAI,ART-15,"Accuracy, robustness, cybersecurity",runtime
+FW-EUAI-ART-50,FW-EUAI,ART-50,Transparency obligations for general-purpose AI,runtime
+FW-ISO-8.2,FW-ISO,8.2,AI System Impact Assessment,design
+FW-ISO-8.3,FW-ISO,8.3,AI System Data Management,design
+FW-ISO-8.4,FW-ISO,8.4,AI System Lifecycle Information,design
+FW-ISO-9.4,FW-ISO,9.4,AI System Monitoring & Review,runtime

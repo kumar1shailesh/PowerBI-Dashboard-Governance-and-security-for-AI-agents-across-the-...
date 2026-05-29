@@ -1,0 +1,7 @@
+code,title,function,description
+GOVERN-1.1,Governance policies are in place,Govern,"Legal and regulatory requirements identified; risk-management policies documented and resourced."
+MAP-2.3,Scientific integrity & TEVV considerations,Map,"Test, evaluation, verification & validation (TEVV) approaches documented for the AI system."
+MEASURE-2.7,AI system security & resilience tested,Measure,"AI system security and resilience are evaluated using ongoing testing including adversarial conditions."
+MEASURE-2.11,Privacy risk identified and managed,Measure,"Privacy-related risks of the AI system are identified, measured, and managed."
+MANAGE-1.3,Responses to AI risks documented,Manage,"AI risk responses (mitigate, transfer, avoid, accept) documented and approved."
+MANAGE-4.1,Post-deployment monitoring planned,Manage,"Post-deployment monitoring of AI system performance, incidents, and impacts is planned and resourced."

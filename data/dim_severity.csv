@@ -1,0 +1,6 @@
+severity,rank,sla_days,color_hex
+Critical,4,3,#C00000
+High,3,7,#E97132
+Medium,2,30,#FFC000
+Low,1,90,#2E75B6
+Info,0,365,#7F7F7F

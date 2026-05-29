@@ -1,0 +1,11 @@
+code,title,category,description
+LLM01,Prompt Injection,runtime,"User or tool input manipulates the model into ignoring system instructions or executing attacker-chosen behaviour. Both direct (typed) and indirect (via retrieved document / tool output) injection are in scope."
+LLM02,Sensitive Information Disclosure,runtime,"The model returns secrets, PII, or proprietary data either from training memorisation, RAG corpus leakage, or context-window bleed-through."
+LLM03,Supply Chain,design,"Third-party models, plugins, datasets, or dependencies introduce a vulnerability — backdoored model weights, poisoned datasets, malicious npm/pip packages."
+LLM04,Data and Model Poisoning,design,"Training or fine-tuning data is manipulated to introduce backdoors, biased outputs, or specific reactions to trigger phrases."
+LLM05,Improper Output Handling,runtime,"LLM output is interpreted as code, command, or HTML without proper escaping — opens the door to XSS, SQLi, RCE."
+LLM06,Excessive Agency,design,"The agent is granted broader tools or permissions than required, so a successful prompt injection has outsized blast radius."
+LLM07,System Prompt Leakage,runtime,"The model reveals confidential system prompts, including business logic, API keys, or jailbreak countermeasures."
+LLM08,Vector and Embedding Weaknesses,design,"Embedding stores leak sensitive data through inversion attacks, are poisoned, or are queried by unauthorised users."
+LLM09,Misinformation,runtime,"The model generates confidently wrong outputs that mislead users. Particularly risky in legal, medical, financial contexts."
+LLM10,Unbounded Consumption,runtime,"No rate limit / cost ceiling on token usage — economic DoS or runaway billing."

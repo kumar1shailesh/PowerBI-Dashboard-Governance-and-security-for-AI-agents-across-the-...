@@ -1,0 +1,6 @@
+framework_id,name,url,version
+FW-OWASP,OWASP LLM Top 10 (2025),https://owasp.org/www-project-top-10-for-large-language-model-applications/,2024/2025 edition
+FW-ATLAS,MITRE ATLAS,https://atlas.mitre.org/,2024/2025 edition
+FW-NIST,NIST AI RMF 1.0,https://www.nist.gov/itl/ai-risk-management-framework,2024/2025 edition
+FW-EUAI,EU AI Act,https://artificialintelligenceact.eu/,2024/2025 edition
+FW-ISO,ISO/IEC 42001:2023,https://www.iso.org/standard/81230.html,2024/2025 edition

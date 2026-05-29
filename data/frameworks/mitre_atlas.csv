@@ -1,0 +1,11 @@
+code,title,tactic,description
+AML.T0051,LLM Prompt Injection,Initial Access,"Adversary crafts inputs to alter LLM behaviour. Direct (user prompt) or indirect (via retrieved content)."
+AML.T0048,Erode ML Model Integrity,Impact,"Adversary degrades model integrity through repeated adversarial inputs or training poisoning."
+AML.T0043,Craft Adversarial Data,ML Attack Staging,"Adversary creates inputs designed to fool the ML model — perturbations, evasion samples."
+AML.T0049,Exploit Public-Facing Application,Initial Access,"Adversary exploits a public-facing ML-powered app to gain access or move laterally."
+AML.T0053,LLM Plugin Compromise,Initial Access,"Adversary compromises an LLM plugin / tool to gain agent execution."
+AML.T0054,LLM Jailbreak,Defense Evasion,"Adversary bypasses safety guardrails to elicit prohibited model behaviour."
+AML.T0040,ML Model Inference API Access,Reconnaissance,"Adversary probes the inference API to characterise the model."
+AML.T0044,Full ML Model Access,Collection,"Adversary obtains full model weights — enables offline analysis and adversarial sample generation."
+AML.T0024,Exfiltration via ML Inference API,Exfiltration,"Adversary extracts training data, system prompt, or proprietary data through carefully crafted queries."
+AML.T0057,LLM Data Leakage,Exfiltration,"Adversary extracts confidential data the model was given in its context window."

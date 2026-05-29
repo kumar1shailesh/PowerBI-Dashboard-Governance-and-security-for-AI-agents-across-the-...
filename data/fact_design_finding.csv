@@ -1,0 +1,201 @@
+finding_id,agent_id,title,severity,status,detected_date
+DSN-00001,AGT-0040,eval suite < 50 prompts,Medium,in_progress,2026-03-17
+DSN-00002,AGT-0028,training data lineage missing,Medium,remediated,2026-05-14
+DSN-00003,AGT-0022,model card incomplete,Low,open,2026-05-27
+DSN-00004,AGT-0009,RAG corpus missing PII filter,High,open,2026-05-01
+DSN-00005,AGT-0034,no rate limit configured,Medium,false_positive,2026-04-17
+DSN-00006,AGT-0013,no rate limit configured,Medium,open,2026-03-16
+DSN-00007,AGT-0039,training data lineage missing,Medium,accepted_risk,2026-05-13
+DSN-00008,AGT-0042,eval suite < 50 prompts,Medium,in_progress,2026-03-01
+DSN-00009,AGT-0046,tools wildcard granted,Critical,remediated,2026-05-13
+DSN-00010,AGT-0017,RAG corpus missing PII filter,High,remediated,2026-03-23
+DSN-00011,AGT-0016,missing system prompt hardening,High,open,2026-05-06
+DSN-00012,AGT-0044,eval suite < 50 prompts,Medium,remediated,2026-03-19
+DSN-00013,AGT-0051,missing system prompt hardening,High,open,2026-05-13
+DSN-00014,AGT-0028,model card incomplete,Low,remediated,2026-04-16
+DSN-00015,AGT-0013,model card incomplete,Low,in_progress,2026-05-17
+DSN-00016,AGT-0056,no human-in-the-loop on sensitive tools,Critical,open,2026-03-17
+DSN-00017,AGT-0019,training data lineage missing,Medium,open,2026-03-22
+DSN-00018,AGT-0028,eval suite < 50 prompts,Medium,remediated,2026-05-17
+DSN-00019,AGT-0019,eval suite < 50 prompts,Medium,open,2026-05-17
+DSN-00020,AGT-0015,model card incomplete,Low,remediated,2026-05-19
+DSN-00021,AGT-0057,training data lineage missing,Medium,remediated,2026-05-16
+DSN-00022,AGT-0032,RAG corpus missing PII filter,High,remediated,2026-04-26
+DSN-00023,AGT-0021,no rate limit configured,Medium,open,2026-03-18
+DSN-00024,AGT-0029,RAG corpus missing PII filter,High,open,2026-03-10
+DSN-00025,AGT-0005,no rate limit configured,Medium,accepted_risk,2026-05-01
+DSN-00026,AGT-0050,no rate limit configured,Medium,open,2026-04-12
+DSN-00027,AGT-0014,no human-in-the-loop on sensitive tools,Critical,open,2026-03-09
+DSN-00028,AGT-0058,no human-in-the-loop on sensitive tools,Critical,remediated,2026-03-23
+DSN-00029,AGT-0025,eval suite < 50 prompts,Medium,remediated,2026-05-21
+DSN-00030,AGT-0006,model card incomplete,Low,remediated,2026-05-06
+DSN-00031,AGT-0046,eval suite < 50 prompts,Medium,remediated,2026-05-02
+DSN-00032,AGT-0014,no rate limit configured,Medium,remediated,2026-04-28
+DSN-00033,AGT-0005,training data lineage missing,Medium,open,2026-05-29
+DSN-00034,AGT-0050,training data lineage missing,Medium,remediated,2026-05-09
+DSN-00035,AGT-0041,eval suite < 50 prompts,Medium,remediated,2026-05-26
+DSN-00036,AGT-0055,tools wildcard granted,Critical,remediated,2026-05-21
+DSN-00037,AGT-0009,eval suite < 50 prompts,Medium,open,2026-04-20
+DSN-00038,AGT-0047,RAG corpus missing PII filter,High,open,2026-04-09
+DSN-00039,AGT-0017,tools wildcard granted,Critical,in_progress,2026-04-18
+DSN-00040,AGT-0002,missing system prompt hardening,High,in_progress,2026-04-29
+DSN-00041,AGT-0011,no human-in-the-loop on sensitive tools,Critical,open,2026-03-15
+DSN-00042,AGT-0035,no human-in-the-loop on sensitive tools,Critical,false_positive,2026-03-02
+DSN-00043,AGT-0022,eval suite < 50 prompts,Medium,open,2026-05-19
+DSN-00044,AGT-0028,training data lineage missing,Medium,remediated,2026-03-03
+DSN-00045,AGT-0006,no human-in-the-loop on sensitive tools,Critical,in_progress,2026-03-16
+DSN-00046,AGT-0022,tools wildcard granted,Critical,in_progress,2026-04-27
+DSN-00047,AGT-0026,missing system prompt hardening,High,open,2026-03-30
+DSN-00048,AGT-0012,eval suite < 50 prompts,Medium,accepted_risk,2026-05-16
+DSN-00049,AGT-0051,eval suite < 50 prompts,Medium,open,2026-05-17
+DSN-00050,AGT-0021,training data lineage missing,Medium,false_positive,2026-04-30
+DSN-00051,AGT-0001,training data lineage missing,Medium,accepted_risk,2026-03-19
+DSN-00052,AGT-0027,training data lineage missing,Medium,open,2026-03-09
+DSN-00053,AGT-0007,RAG corpus missing PII filter,High,remediated,2026-05-16
+DSN-00054,AGT-0056,eval suite < 50 prompts,Medium,in_progress,2026-04-28
+DSN-00055,AGT-0025,no rate limit configured,Medium,open,2026-04-19
+DSN-00056,AGT-0025,missing system prompt hardening,High,remediated,2026-05-13
+DSN-00057,AGT-0055,no rate limit configured,Medium,remediated,2026-04-24
+DSN-00058,AGT-0028,missing system prompt hardening,High,remediated,2026-05-21
+DSN-00059,AGT-0026,no rate limit configured,Medium,remediated,2026-05-04
+DSN-00060,AGT-0013,tools wildcard granted,Critical,open,2026-03-17
+DSN-00061,AGT-0028,model card incomplete,Low,remediated,2026-03-25
+DSN-00062,AGT-0010,no rate limit configured,Medium,open,2026-05-30
+DSN-00063,AGT-0052,no human-in-the-loop on sensitive tools,Critical,open,2026-04-11
+DSN-00064,AGT-0059,missing system prompt hardening,High,in_progress,2026-03-21
+DSN-00065,AGT-0038,model card incomplete,Low,remediated,2026-04-20
+DSN-00066,AGT-0043,training data lineage missing,Medium,remediated,2026-05-19
+DSN-00067,AGT-0044,missing system prompt hardening,High,remediated,2026-04-26
+DSN-00068,AGT-0037,tools wildcard granted,Critical,in_progress,2026-03-03
+DSN-00069,AGT-0039,RAG corpus missing PII filter,High,open,2026-05-22
+DSN-00070,AGT-0002,no rate limit configured,Medium,open,2026-03-11
+DSN-00071,AGT-0046,RAG corpus missing PII filter,High,in_progress,2026-03-04
+DSN-00072,AGT-0047,training data lineage missing,Medium,remediated,2026-05-05
+DSN-00073,AGT-0025,model card incomplete,Low,in_progress,2026-04-08
+DSN-00074,AGT-0024,training data lineage missing,Medium,open,2026-03-16
+DSN-00075,AGT-0050,no human-in-the-loop on sensitive tools,Critical,open,2026-05-07
+DSN-00076,AGT-0060,model card incomplete,Low,remediated,2026-03-21
+DSN-00077,AGT-0010,RAG corpus missing PII filter,High,remediated,2026-04-03
+DSN-00078,AGT-0021,tools wildcard granted,Critical,open,2026-03-09
+DSN-00079,AGT-0027,model card incomplete,Low,in_progress,2026-04-12
+DSN-00080,AGT-0008,training data lineage missing,Medium,remediated,2026-05-12
+DSN-00081,AGT-0055,model card incomplete,Low,open,2026-03-22
+DSN-00082,AGT-0043,missing system prompt hardening,High,false_positive,2026-04-09
+DSN-00083,AGT-0023,no human-in-the-loop on sensitive tools,Critical,open,2026-03-16
+DSN-00084,AGT-0018,no human-in-the-loop on sensitive tools,Critical,open,2026-05-16
+DSN-00085,AGT-0054,training data lineage missing,Medium,open,2026-05-28
+DSN-00086,AGT-0023,eval suite < 50 prompts,Medium,remediated,2026-05-02
+DSN-00087,AGT-0018,model card incomplete,Low,open,2026-05-29
+DSN-00088,AGT-0034,no rate limit configured,Medium,remediated,2026-03-27
+DSN-00089,AGT-0017,no human-in-the-loop on sensitive tools,Critical,remediated,2026-03-01
+DSN-00090,AGT-0053,tools wildcard granted,Critical,remediated,2026-05-29
+DSN-00091,AGT-0005,model card incomplete,Low,open,2026-04-28
+DSN-00092,AGT-0006,no human-in-the-loop on sensitive tools,Critical,remediated,2026-05-05
+DSN-00093,AGT-0054,RAG corpus missing PII filter,High,remediated,2026-05-04
+DSN-00094,AGT-0001,eval suite < 50 prompts,Medium,remediated,2026-04-25
+DSN-00095,AGT-0033,eval suite < 50 prompts,Medium,remediated,2026-04-24
+DSN-00096,AGT-0051,model card incomplete,Low,open,2026-05-06
+DSN-00097,AGT-0043,tools wildcard granted,Critical,open,2026-05-15
+DSN-00098,AGT-0043,eval suite < 50 prompts,Medium,open,2026-03-08
+DSN-00099,AGT-0041,tools wildcard granted,Critical,remediated,2026-05-12
+DSN-00100,AGT-0024,eval suite < 50 prompts,Medium,remediated,2026-05-06
+DSN-00101,AGT-0024,eval suite < 50 prompts,Medium,open,2026-03-11
+DSN-00102,AGT-0052,tools wildcard granted,Critical,remediated,2026-04-22
+DSN-00103,AGT-0027,eval suite < 50 prompts,Medium,in_progress,2026-04-23
+DSN-00104,AGT-0019,no rate limit configured,Medium,open,2026-05-13
+DSN-00105,AGT-0025,no human-in-the-loop on sensitive tools,Critical,remediated,2026-03-16
+DSN-00106,AGT-0033,eval suite < 50 prompts,Medium,open,2026-04-28
+DSN-00107,AGT-0042,tools wildcard granted,Critical,remediated,2026-05-21
+DSN-00108,AGT-0040,eval suite < 50 prompts,Medium,remediated,2026-05-10
+DSN-00109,AGT-0056,model card incomplete,Low,in_progress,2026-03-25
+DSN-00110,AGT-0058,tools wildcard granted,Critical,in_progress,2026-04-09
+DSN-00111,AGT-0023,model card incomplete,Low,open,2026-05-12
+DSN-00112,AGT-0036,model card incomplete,Low,open,2026-05-02
+DSN-00113,AGT-0019,training data lineage missing,Medium,remediated,2026-03-21
+DSN-00114,AGT-0053,eval suite < 50 prompts,Medium,open,2026-05-04
+DSN-00115,AGT-0054,tools wildcard granted,Critical,open,2026-03-07
+DSN-00116,AGT-0040,model card incomplete,Low,open,2026-05-03
+DSN-00117,AGT-0053,training data lineage missing,Medium,open,2026-03-31
+DSN-00118,AGT-0012,RAG corpus missing PII filter,High,in_progress,2026-04-08
+DSN-00119,AGT-0055,eval suite < 50 prompts,Medium,open,2026-04-11
+DSN-00120,AGT-0046,RAG corpus missing PII filter,High,false_positive,2026-03-26
+DSN-00121,AGT-0035,no human-in-the-loop on sensitive tools,Critical,open,2026-04-26
+DSN-00122,AGT-0009,model card incomplete,Low,remediated,2026-05-01
+DSN-00123,AGT-0027,tools wildcard granted,Critical,accepted_risk,2026-05-09
+DSN-00124,AGT-0055,training data lineage missing,Medium,open,2026-03-14
+DSN-00125,AGT-0036,eval suite < 50 prompts,Medium,open,2026-03-30
+DSN-00126,AGT-0053,eval suite < 50 prompts,Medium,false_positive,2026-03-23
+DSN-00127,AGT-0013,model card incomplete,Low,remediated,2026-03-16
+DSN-00128,AGT-0051,no human-in-the-loop on sensitive tools,Critical,remediated,2026-04-08
+DSN-00129,AGT-0018,RAG corpus missing PII filter,High,remediated,2026-03-27
+DSN-00130,AGT-0060,no rate limit configured,Medium,in_progress,2026-04-16
+DSN-00131,AGT-0051,training data lineage missing,Medium,accepted_risk,2026-05-11
+DSN-00132,AGT-0028,training data lineage missing,Medium,open,2026-04-17
+DSN-00133,AGT-0015,model card incomplete,Low,remediated,2026-03-15
+DSN-00134,AGT-0021,model card incomplete,Low,in_progress,2026-05-11
+DSN-00135,AGT-0033,tools wildcard granted,Critical,false_positive,2026-05-24
+DSN-00136,AGT-0058,eval suite < 50 prompts,Medium,in_progress,2026-03-01
+DSN-00137,AGT-0052,training data lineage missing,Medium,remediated,2026-04-10
+DSN-00138,AGT-0041,eval suite < 50 prompts,Medium,remediated,2026-03-01
+DSN-00139,AGT-0021,training data lineage missing,Medium,remediated,2026-03-06
+DSN-00140,AGT-0057,tools wildcard granted,Critical,remediated,2026-03-10
+DSN-00141,AGT-0057,model card incomplete,Low,open,2026-03-18
+DSN-00142,AGT-0052,eval suite < 50 prompts,Medium,in_progress,2026-03-12
+DSN-00143,AGT-0042,training data lineage missing,Medium,remediated,2026-04-12
+DSN-00144,AGT-0004,tools wildcard granted,Critical,open,2026-05-28
+DSN-00145,AGT-0014,missing system prompt hardening,High,in_progress,2026-04-30
+DSN-00146,AGT-0049,training data lineage missing,Medium,false_positive,2026-04-18
+DSN-00147,AGT-0009,model card incomplete,Low,remediated,2026-04-20
+DSN-00148,AGT-0031,RAG corpus missing PII filter,High,accepted_risk,2026-04-13
+DSN-00149,AGT-0016,no human-in-the-loop on sensitive tools,Critical,open,2026-03-11
+DSN-00150,AGT-0053,missing system prompt hardening,High,remediated,2026-05-15
+DSN-00151,AGT-0060,tools wildcard granted,Critical,open,2026-04-09
+DSN-00152,AGT-0057,training data lineage missing,Medium,remediated,2026-03-12
+DSN-00153,AGT-0029,eval suite < 50 prompts,Medium,open,2026-03-18
+DSN-00154,AGT-0054,eval suite < 50 prompts,Medium,false_positive,2026-03-07
+DSN-00155,AGT-0019,RAG corpus missing PII filter,High,remediated,2026-03-06
+DSN-00156,AGT-0053,tools wildcard granted,Critical,open,2026-04-16
+DSN-00157,AGT-0007,RAG corpus missing PII filter,High,remediated,2026-03-30
+DSN-00158,AGT-0025,RAG corpus missing PII filter,High,remediated,2026-05-17
+DSN-00159,AGT-0007,training data lineage missing,Medium,remediated,2026-03-30
+DSN-00160,AGT-0030,missing system prompt hardening,High,in_progress,2026-05-27
+DSN-00161,AGT-0026,no human-in-the-loop on sensitive tools,Critical,remediated,2026-04-03
+DSN-00162,AGT-0059,tools wildcard granted,Critical,remediated,2026-05-14
+DSN-00163,AGT-0038,RAG corpus missing PII filter,High,false_positive,2026-04-01
+DSN-00164,AGT-0035,missing system prompt hardening,High,in_progress,2026-03-31
+DSN-00165,AGT-0052,model card incomplete,Low,open,2026-03-05
+DSN-00166,AGT-0049,training data lineage missing,Medium,open,2026-03-18
+DSN-00167,AGT-0013,tools wildcard granted,Critical,open,2026-03-10
+DSN-00168,AGT-0023,missing system prompt hardening,High,remediated,2026-05-09
+DSN-00169,AGT-0059,eval suite < 50 prompts,Medium,remediated,2026-03-13
+DSN-00170,AGT-0007,training data lineage missing,Medium,open,2026-04-02
+DSN-00171,AGT-0005,no rate limit configured,Medium,accepted_risk,2026-03-30
+DSN-00172,AGT-0003,missing system prompt hardening,High,remediated,2026-03-27
+DSN-00173,AGT-0055,missing system prompt hardening,High,open,2026-05-18
+DSN-00174,AGT-0029,no rate limit configured,Medium,open,2026-04-16
+DSN-00175,AGT-0011,eval suite < 50 prompts,Medium,open,2026-03-26
+DSN-00176,AGT-0046,missing system prompt hardening,High,in_progress,2026-05-12
+DSN-00177,AGT-0046,missing system prompt hardening,High,open,2026-05-30
+DSN-00178,AGT-0043,no rate limit configured,Medium,in_progress,2026-03-06
+DSN-00179,AGT-0035,no rate limit configured,Medium,remediated,2026-04-21
+DSN-00180,AGT-0044,eval suite < 50 prompts,Medium,in_progress,2026-03-05
+DSN-00181,AGT-0042,no human-in-the-loop on sensitive tools,Critical,open,2026-05-17
+DSN-00182,AGT-0049,training data lineage missing,Medium,remediated,2026-03-31
+DSN-00183,AGT-0044,tools wildcard granted,Critical,in_progress,2026-03-27
+DSN-00184,AGT-0020,eval suite < 50 prompts,Medium,open,2026-04-08
+DSN-00185,AGT-0045,training data lineage missing,Medium,open,2026-04-03
+DSN-00186,AGT-0050,no rate limit configured,Medium,open,2026-05-05
+DSN-00187,AGT-0025,missing system prompt hardening,High,in_progress,2026-03-03
+DSN-00188,AGT-0037,missing system prompt hardening,High,in_progress,2026-03-29
+DSN-00189,AGT-0004,RAG corpus missing PII filter,High,open,2026-05-23
+DSN-00190,AGT-0035,training data lineage missing,Medium,open,2026-04-27
+DSN-00191,AGT-0008,no human-in-the-loop on sensitive tools,Critical,open,2026-04-03
+DSN-00192,AGT-0005,eval suite < 50 prompts,Medium,remediated,2026-03-19
+DSN-00193,AGT-0034,training data lineage missing,Medium,open,2026-03-26
+DSN-00194,AGT-0032,training data lineage missing,Medium,remediated,2026-04-29
+DSN-00195,AGT-0018,training data lineage missing,Medium,in_progress,2026-03-15
+DSN-00196,AGT-0006,training data lineage missing,Medium,open,2026-03-23
+DSN-00197,AGT-0023,missing system prompt hardening,High,open,2026-05-02
+DSN-00198,AGT-0032,eval suite < 50 prompts,Medium,open,2026-05-03
+DSN-00199,AGT-0054,RAG corpus missing PII filter,High,open,2026-03-23
+DSN-00200,AGT-0039,tools wildcard granted,Critical,remediated,2026-04-25

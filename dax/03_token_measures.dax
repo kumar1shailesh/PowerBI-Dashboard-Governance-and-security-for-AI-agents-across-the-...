@@ -1,0 +1,80 @@
+// ─────────────────────────────── Token volume ─────────────────────────────
+Total Input Tokens   = SUM( fact_token_consumption[input_tokens] )
+Total Output Tokens  = SUM( fact_token_consumption[output_tokens] )
+Total Tokens         = [Total Input Tokens] + [Total Output Tokens]
+
+Total Cost USD = SUM( fact_token_consumption[cost_usd] )
+
+// Friendly formatted version for cards.
+Total Cost USD Card =
+"$" & FORMAT( [Total Cost USD], "#,##0.00" )
+
+// Total requests across all rows in scope.
+Total Requests = SUM( fact_token_consumption[requests] )
+
+// ─────────────────────────────── Per-agent rollups ─────────────────────────
+Cost Per Agent =
+DIVIDE( [Total Cost USD], DISTINCTCOUNT( fact_token_consumption[agent_id] ) )
+
+Cost Per 1K Requests =
+DIVIDE( [Total Cost USD], [Total Requests] / 1000 )
+
+// ─────────────────────────────── Time intelligence ─────────────────────────
+// Month-over-month percentage change in cost. Requires the date dimension
+// to be marked as a date table in the model.
+
+Cost USD Prev Month =
+CALCULATE(
+    [Total Cost USD],
+    DATEADD( dim_date[date], -1, MONTH )
+)
+
+Cost USD MoM % =
+DIVIDE(
+    [Total Cost USD] - [Cost USD Prev Month],
+    [Cost USD Prev Month]
+)
+
+Cost USD MTD =
+CALCULATE(
+    [Total Cost USD],
+    DATESMTD( dim_date[date] )
+)
+
+Cost USD YTD =
+CALCULATE(
+    [Total Cost USD],
+    DATESYTD( dim_date[date] )
+)
+
+// ─────────────────────────────── Anomaly indicators ────────────────────────
+// Daily cost vs the trailing 7-day moving average — anything > 2x baseline
+// is surfaced on the runaway-spend visual.
+
+Daily Cost =
+SUMX(
+    SUMMARIZE( fact_token_consumption, fact_token_consumption[date] ),
+    [Total Cost USD]
+)
+
+7D Avg Daily Cost =
+AVERAGEX(
+    DATESINPERIOD( dim_date[date], MAX( dim_date[date] ), -7, DAY ),
+    [Total Cost USD]
+)
+
+Cost Anomaly Flag =
+IF(
+    [Total Cost USD] > 2 * [7D Avg Daily Cost]
+        && [Total Cost USD] > 10,
+    "Spike",
+    "Normal"
+)
+
+// ─────────────────────────────── Top consumers ─────────────────────────────
+Top 5 Agents By Cost =
+CONCATENATEX(
+    TOPN( 5, VALUES( dim_agent[name] ), [Total Cost USD], DESC ),
+    dim_agent[name] & " ($" & FORMAT( [Total Cost USD], "#,##0" ) & ")",
+    UNICHAR(10)
+)
