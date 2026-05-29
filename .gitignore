@@ -17,3 +17,7 @@ venv/
 
 # Generated CSVs are committed; replace with `.gitignore` data/ in your fork
 # if you only want to commit the model + DAX and treat data as transient.
+
+# Build scratch — the .pbit is committed at the repo root, the unzipped
+# pbit_build/ scratch directory is not.
+pbit_build/

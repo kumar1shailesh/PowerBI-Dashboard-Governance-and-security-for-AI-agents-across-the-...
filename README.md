@@ -7,11 +7,25 @@ posture across OWASP LLM Top 10 / MITRE ATLAS / NIST AI RMF / EU AI Act
 / ISO 42001, token consumption + cost, and **Function-Point Analysis**
 for remediation effort estimation.
 
-> **Note on PBIX delivery.** Power BI Desktop's `.pbix` is a
-> Microsoft binary container. This repo ships every text artifact that
-> goes into the PBIX — synthetic data, DAX measures, Power Query M,
-> theme JSON, page-by-page layout specs, and a 30-minute build guide —
-> so any Power BI developer can assemble the live `.pbix` quickly.
+## Two delivery paths
+
+**Fast path — open the bundled `.pbit` template.** This repo ships an
+auto-generated **[`AI-Agent-Governance.pbit`](AI-Agent-Governance.pbit)**
+at the root. The template contains all 10 tables, 13 relationships, 74
+DAX measures, and one starter page. Open it in Power BI Desktop; when
+prompted for the `DataFolder` parameter, paste the absolute path to the
+repo's `data/` folder. The model materialises and you have a working
+skeleton — then build out the remaining 8 pages using the page specs.
+
+> The PBIT is generated from text by `scripts/build_pbit.py`. The
+> format is finicky; see [`docs/pbit_caveats.md`](docs/pbit_caveats.md).
+> If Power BI Desktop refuses the file, the manual build below is the
+> reliable fallback.
+
+**Reliable path — hand-build the PBIX in 30 minutes.** Every text
+artifact needed to build a PBIX from scratch is in this repo: synthetic
+data, DAX measures, Power Query M, theme JSON, and page-by-page layout
+specs. Follow [`pbix_build_guide.md`](pbix_build_guide.md).
 
 ## What's inside
 
