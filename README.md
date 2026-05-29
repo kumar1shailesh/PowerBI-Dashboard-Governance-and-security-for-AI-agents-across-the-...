@@ -7,15 +7,22 @@ posture across OWASP LLM Top 10 / MITRE ATLAS / NIST AI RMF / EU AI Act
 / ISO 42001, token consumption + cost, and **Function-Point Analysis**
 for remediation effort estimation.
 
-## Two delivery paths
+## Three delivery paths
 
-**Fast path — open the bundled `.pbit` template.** This repo ships an
-auto-generated **[`AI-Agent-Governance.pbit`](AI-Agent-Governance.pbit)**
-at the root. The template contains all 10 tables, 13 relationships, 74
-DAX measures, and one starter page. Open it in Power BI Desktop; when
-prompted for the `DataFolder` parameter, paste the absolute path to the
-repo's `data/` folder. The model materialises and you have a working
-skeleton — then build out the remaining 8 pages using the page specs.
+**Easiest — open the HTML dashboard.** This repo ships
+**[`dashboard.html`](dashboard.html)** at the root — a single
+self-contained file (58 KB). Double-click to open in any browser. Nine
+tabbed pages, 16 interactive Plotly.js charts, all the same KPIs as the
+Power BI version, computed from the same CSVs. No Power BI Desktop, no
+server, no install.
+
+**Fast path — open the bundled `.pbit` template.** This repo also ships
+**[`AI-Agent-Governance.pbit`](AI-Agent-Governance.pbit)** at the root.
+The template contains all 10 tables, 13 relationships, 74 DAX measures,
+and one starter page. Open it in Power BI Desktop; when prompted for
+the `DataFolder` parameter, paste the absolute path to the repo's
+`data/` folder. The model materialises and you have a working skeleton
+— then build out the remaining 8 pages using the page specs.
 
 > The PBIT is generated from text by `scripts/build_pbit.py`. The
 > format is finicky; see [`docs/pbit_caveats.md`](docs/pbit_caveats.md).

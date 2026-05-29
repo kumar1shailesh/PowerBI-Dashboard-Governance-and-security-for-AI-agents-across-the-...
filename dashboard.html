@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Agent Governance — Leadership Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root {
+      --primary: #1F4E79;
+      --primary2: #2E75B6;
+      --bg: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --ink: #1F1F1F;
+      --muted: #5B5B5B;
+      --critical: #C00000;
+      --high: #E97132;
+      --medium: #FFC000;
+      --low: #2E75B6;
+      --info: #7F7F7F;
+      --compliant: #548235;
+      --border: #E2E5EA;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif;
+           background: var(--bg); color: var(--ink); }
+    header { background: var(--primary); color: #fff; padding: 16px 28px;
+             display: flex; align-items: center; gap: 16px;
+             box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    header h1 { margin: 0; font-size: 18px; font-weight: 600; flex: 1; }
+    header .meta { font-size: 12px; opacity: 0.85; }
+    nav { background: #fff; padding: 0 16px; border-bottom: 1px solid var(--border);
+          display: flex; flex-wrap: wrap; gap: 4px; position: sticky; top: 0;
+          z-index: 10; box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
+    nav button { background: transparent; border: 0; padding: 12px 14px;
+                 font-family: inherit; font-size: 13px; color: var(--muted);
+                 cursor: pointer; border-bottom: 3px solid transparent;
+                 transition: all 0.15s ease; }
+    nav button:hover { color: var(--primary); }
+    nav button.active { color: var(--primary); border-bottom-color: var(--primary);
+                        font-weight: 600; }
+    main { padding: 20px 24px 60px; max-width: 1600px; margin: 0 auto; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .page h2 { margin: 0 0 16px; color: var(--primary); font-weight: 600; font-size: 22px; }
+    .page .subtitle { color: var(--muted); margin-bottom: 20px; font-size: 13px; }
+    .grid { display: grid; gap: 16px; }
+    .grid-5 { grid-template-columns: repeat(5, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 1100px) {
+      .grid-5, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .card { background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 8px; padding: 16px; }
+    .card h3 { margin: 0 0 4px; font-size: 12px; color: var(--muted);
+               font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card .num { font-size: 32px; font-weight: 600; color: var(--primary);
+                 line-height: 1.2; }
+    .card .num.alert { color: var(--critical); }
+    .card .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .chart { background: var(--card-bg); border: 1px solid var(--border);
+             border-radius: 8px; padding: 12px; min-height: 320px; }
+    .chart h3 { margin: 0 0 8px; font-size: 14px; color: var(--primary);
+                font-weight: 600; }
+    table.data { width: 100%; border-collapse: collapse; font-size: 12px; }
+    table.data th { background: var(--bg); padding: 8px;
+                    text-align: left; font-weight: 600; color: var(--muted);
+                    border-bottom: 2px solid var(--border); }
+    table.data td { padding: 6px 8px; border-bottom: 1px solid var(--border); }
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 10px;
+            font-size: 11px; font-weight: 600; color: #fff; }
+    .pill.Critical { background: var(--critical); }
+    .pill.High     { background: var(--high); color: #fff; }
+    .pill.Medium   { background: var(--medium); color: #1F1F1F; }
+    .pill.Low      { background: var(--low); }
+    .pill.Info     { background: var(--info); }
+    .footnote { color: var(--muted); font-size: 11px; margin-top: 28px;
+                text-align: center; }
+    .footnote a { color: var(--primary); }
+    .heatmap-cell { width: 22px; height: 22px; display: inline-block;
+                    margin: 1px; border-radius: 2px; vertical-align: middle; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>AI Agent Governance — Leadership Dashboard</h1>
+    <div class="meta">Synthetic demo data · same model as the Power BI PBIT</div>
+  </div>
+</header>
+
+<nav id="nav">
+  <button data-page="executive">Executive Summary</button>
+  <button data-page="risk">Agent Risk</button>
+  <button data-page="framework">Framework Compliance</button>
+  <button data-page="violations">Violations &amp; Remediation</button>
+  <button data-page="tokens">Token Consumption</button>
+  <button data-page="runtime">Runtime Events</button>
+  <button data-page="design">Design-Time Findings</button>
+  <button data-page="fpa">FPA Capacity</button>
+  <button data-page="drill">Agent Drill-Through</button>
+</nav>
+
+<main>
+
+<!-- PAGE 1 — EXECUTIVE SUMMARY -->
+<section id="executive" class="page active">
+  <h2>Executive Summary</h2>
+  <p class="subtitle">Board-level view across the agent portfolio.</p>
+  <div class="grid grid-5">
+    <div class="card"><h3>Total Agents</h3><div class="num" id="kpi-total"></div></div>
+    <div class="card"><h3>Critical Risk Agents</h3><div class="num alert" id="kpi-critical"></div></div>
+    <div class="card"><h3>Open Violations</h3><div class="num" id="kpi-open"></div></div>
+    <div class="card"><h3>SLA Breaches</h3><div class="num alert" id="kpi-sla"></div></div>
+    <div class="card"><h3>Cost MTD (USD)</h3><div class="num" id="kpi-cost"></div></div>
+  </div>
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="chart"><h3>Compliance % by framework</h3><div id="chart-compliance"></div></div>
+    <div class="chart"><h3>Top 10 risky agents</h3><div id="chart-top-risky"></div></div>
+  </div>
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="chart"><h3>Open violations by severity</h3><div id="chart-open-sev"></div></div>
+    <div class="chart"><h3>Token cost (last 90 days)</h3><div id="chart-cost-trend"></div></div>
+  </div>
+</section>
+
+<!-- PAGE 2 — AGENT RISK -->
+<section id="risk" class="page">
+  <h2>Agent Risk Heatmap</h2>
+  <p class="subtitle">One row per agent. Higher score = higher risk. Sort by clicking column headers in Power BI.</p>
+  <div class="chart" style="padding:0">
+    <table class="data" id="risk-table"></table>
+  </div>
+</section>
+
+<!-- PAGE 3 — FRAMEWORK COMPLIANCE -->
+<section id="framework" class="page">
+  <h2>Framework Compliance</h2>
+  <p class="subtitle">Coverage across OWASP LLM Top 10 · MITRE ATLAS · NIST AI RMF · EU AI Act · ISO 42001.</p>
+  <div class="grid grid-5" id="fw-gauges"></div>
+  <div class="chart" style="margin-top:16px">
+    <h3>Compliance gauge per framework</h3>
+    <div id="chart-fw-bars"></div>
+  </div>
+</section>
+
+<!-- PAGE 4 — VIOLATIONS & REMEDIATION -->
+<section id="violations" class="page">
+  <h2>Violations &amp; Remediation</h2>
+  <p class="subtitle">Operational backlog · age distribution · status mix.</p>
+  <div class="grid grid-5">
+    <div class="card"><h3>Open</h3><div class="num" id="kpi-open2"></div></div>
+    <div class="card"><h3>MTTR (days)</h3><div class="num" id="kpi-mttr"></div></div>
+    <div class="card"><h3>MTTR Critical (days)</h3><div class="num alert" id="kpi-mttr-crit"></div></div>
+    <div class="card"><h3>SLA breach %</h3><div class="num alert" id="kpi-sla-pct"></div></div>
+    <div class="card"><h3>Block rate %</h3><div class="num" id="kpi-block"></div></div>
+  </div>
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="chart"><h3>Aging buckets</h3><div id="chart-aging"></div></div>
+    <div class="chart"><h3>Status distribution (all violations)</h3><div id="chart-status"></div></div>
+  </div>
+  <div class="chart" style="margin-top:16px">
+    <h3>Open violations — top 50 by severity × overdue</h3>
+    <div style="max-height:380px; overflow:auto">
+      <table class="data" id="violations-table"></table>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 — TOKEN CONSUMPTION -->
+<section id="tokens" class="page">
+  <h2>Token Consumption &amp; Cost</h2>
+  <p class="subtitle">Per-agent + per-model cost telemetry.</p>
+  <div class="grid grid-4">
+    <div class="card"><h3>Cost MTD</h3><div class="num" id="kpi-cost-mtd"></div></div>
+    <div class="card"><h3>Cost YTD</h3><div class="num" id="kpi-cost-ytd"></div></div>
+    <div class="card"><h3>Daily cost trend</h3><div class="num" id="kpi-cost-trend"></div></div>
+    <div class="card"><h3>Top consumer</h3><div class="num" id="kpi-top-consumer" style="font-size:18px"></div></div>
+  </div>
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="chart"><h3>Daily cost (last 90 days)</h3><div id="chart-cost-daily"></div></div>
+    <div class="chart"><h3>Cost by model</h3><div id="chart-cost-model"></div></div>
+  </div>
+  <div class="chart" style="margin-top:16px">
+    <h3>Top 15 agents by cost</h3>
+    <div id="chart-cost-agents"></div>
+  </div>
+</section>
+
+<!-- PAGE 6 — RUNTIME EVENTS -->
+<section id="runtime" class="page">
+  <h2>Runtime Events</h2>
+  <p class="subtitle">Live-defence posture. Last 30 days.</p>
+  <div class="grid grid-4">
+    <div class="card"><h3>Events 30D</h3><div class="num" id="kpi-runtime-total"></div></div>
+    <div class="card"><h3>Blocked 30D</h3><div class="num" id="kpi-runtime-blocked"></div></div>
+    <div class="card"><h3>Block rate</h3><div class="num" id="kpi-runtime-block-rate"></div></div>
+    <div class="card"><h3>Prompt injection attempts</h3><div class="num alert" id="kpi-pi"></div></div>
+  </div>
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="chart"><h3>Events over time</h3><div id="chart-runtime-trend"></div></div>
+    <div class="chart"><h3>Events by type</h3><div id="chart-runtime-type"></div></div>
+  </div>
+</section>
+
+<!-- PAGE 7 — DESIGN-TIME FINDINGS -->
+<section id="design" class="page">
+  <h2>Design-Time Findings</h2>
+  <p class="subtitle">Code- and config-level issues caught during agent review.</p>
+  <div class="grid grid-2">
+    <div class="chart"><h3>Open by severity</h3><div id="chart-design-sev"></div></div>
+    <div class="chart"><h3>Top 10 finding titles</h3><div id="chart-design-titles"></div></div>
+  </div>
+</section>
+
+<!-- PAGE 8 — FPA CAPACITY -->
+<section id="fpa" class="page">
+  <h2>FPA Effort &amp; Capacity Planning</h2>
+  <p class="subtitle">Function-Point Analysis · what-if hourly rate &amp; team capacity.</p>
+  <div class="grid grid-5">
+    <div class="card"><h3>Open backlog</h3><div class="num" id="kpi-fpa-open"></div></div>
+    <div class="card"><h3>FPA hours total</h3><div class="num" id="kpi-fpa-hours"></div></div>
+    <div class="card"><h3>FPA hours Critical</h3><div class="num alert" id="kpi-fpa-crit"></div></div>
+    <div class="card"><h3>Est. cost @ <input id="rate" type="number" value="75" min="25" max="250" step="5" style="width:48px;font:inherit"/> /h</h3><div class="num" id="kpi-fpa-cost"></div></div>
+    <div class="card"><h3>Weeks @ <input id="cap" type="number" value="120" min="20" max="600" step="20" style="width:64px;font:inherit"/> h/wk</h3><div class="num" id="kpi-fpa-weeks"></div></div>
+  </div>
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="chart"><h3>FPA hours by framework</h3><div id="chart-fpa-fw"></div></div>
+    <div class="chart"><h3>FPA hours by business unit</h3><div id="chart-fpa-bu"></div></div>
+  </div>
+</section>
+
+<!-- PAGE 9 — DRILL-THROUGH -->
+<section id="drill" class="page">
+  <h2>Agent Drill-Through</h2>
+  <p class="subtitle">Pick an agent to inspect.</p>
+  <select id="drill-select" style="margin-bottom:16px; padding:6px 10px; font:inherit"></select>
+  <div id="drill-content"></div>
+</section>
+
+<div class="footnote">
+  Generated from synthetic data with the same model as
+  <code>AI-Agent-Governance.pbit</code>. Source CSVs + DAX + page specs at
+  <a href="https://github.com/kumar1shailesh/PowerBI-Dashboard-Governance-and-security-for-AI-agents-across-the-...">github.com/kumar1shailesh/PowerBI-Dashboard-Governance-...</a>
+</div>
+
+</main>
+
+<script>
+const PAYLOAD = {"summary": {"total_agents": 60, "critical_agents": 1, "open_violations": 394, "sla_breaches": 322, "cost_mtd": 376.31, "cost_ytd": 1820.62, "block_rate": 78.2, "open_critical_high": 192, "mttr": 33.8, "mttr_critical": 4.2, "fpa_hours": 4680, "fpa_critical": 1448, "today": "2026-05-30"}, "agents": [{"agent_id": "AGT-0052", "name": "OpenAI-CUS-052", "platform": "OpenAI Assistants", "business_unit": "Customer Support", "criticality": "Critical", "score": 83.2, "open_ch": 7, "sla": 8, "attempts": 169, "excessive": 1, "tools_count": 10}, {"agent_id": "AGT-0021", "name": "Microsoft-CUS-021", "platform": "Microsoft Copilot", "business_unit": "Customer Support", "criticality": "Critical", "score": 73.2, "open_ch": 5, "sla": 6, "attempts": 130, "excessive": 1, "tools_count": 7}, {"agent_id": "AGT-0029", "name": "Custom-ENG-029", "platform": "Custom Agent", "business_unit": "Engineering", "criticality": "Critical", "score": 70.9, "open_ch": 5, "sla": 5, "attempts": 178, "excessive": 0, "tools_count": 2}, {"agent_id": "AGT-0055", "name": "Microsoft-LEG-055", "platform": "Microsoft Copilot", "business_unit": "Legal", "criticality": "High", "score": 69.5, "open_ch": 7, "sla": 8, "attempts": 60, "excessive": 0, "tools_count": 8}, {"agent_id": "AGT-0060", "name": "Anthropic-SAL-060", "platform": "Anthropic Claude", "business_unit": "Sales", "criticality": "Critical", "score": 68.8, "open_ch": 5, "sla": 4, "attempts": 137, "excessive": 1, "tools_count": 7}, {"agent_id": "AGT-0032", "name": "OpenAI-RIS-032", "platform": "OpenAI Assistants", "business_unit": "Risk & Compliance", "criticality": "High", "score": 68.6, "open_ch": 8, "sla": 8, "attempts": 68, "excessive": 0, "tools_count": 0}, {"agent_id": "AGT-0059", "name": "OpenAI-SAL-059", "platform": "OpenAI Assistants", "business_unit": "Sales", "criticality": "High", "score": 65.2, "open_ch": 7, "sla": 7, "attempts": 69, "excessive": 0, "tools_count": 1}, {"agent_id": "AGT-0036", "name": "Anthropic-CUS-036", "platform": "Anthropic Claude", "business_unit": "Customer Support", "criticality": "High", "score": 63.6, "open_ch": 5, "sla": 6, "attempts": 74, "excessive": 0, "tools_count": 8}, {"agent_id": "AGT-0056", "name": "Microsoft-RIS-056", "platform": "Microsoft Copilot", "business_unit": "Risk & Compliance", "criticality": "High", "score": 63.3, "open_ch": 5, "sla": 5, "attempts": 57, "excessive": 1, "tools_count": 8}, {"agent_id": "AGT-0030", "name": "Anthropic-LEG-030", "platform": "Anthropic Claude", "business_unit": "Legal", "criticality": "High", "score": 63.0, "open_ch": 5, "sla": 8, "attempts": 66, "excessive": 0, "tools_count": 9}, {"agent_id": "AGT-0035", "name": "Microsoft-ENG-035", "platform": "Microsoft Copilot", "business_unit": "Engineering", "criticality": "High", "score": 60.9, "open_ch": 4, "sla": 5, "attempts": 72, "excessive": 1, "tools_count": 8}, {"agent_id": "AGT-0046", "name": "OpenAI-FIN-046", "platform": "OpenAI Assistants", "business_unit": "Finance", "criticality": "High", "score": 60.9, "open_ch": 4, "sla": 5, "attempts": 85, "excessive": 0, "tools_count": 12}, {"agent_id": "AGT-0033", "name": "Anthropic-MAR-033", "platform": "Anthropic Claude", "business_unit": "Marketing", "criticality": "High", "score": 60.8, "open_ch": 6, "sla": 7, "attempts": 58, "excessive": 0, "tools_count": 3}, {"agent_id": "AGT-0007", "name": "OpenAI-ENG-007", "platform": "OpenAI Assistants", "business_unit": "Engineering", "criticality": "High", "score": 60.1, "open_ch": 4, "sla": 6, "attempts": 74, "excessive": 0, "tools_count": 11}, {"agent_id": "AGT-0010", "name": "Custom-CUS-010", "platform": "Custom Agent", "business_unit": "Customer Support", "criticality": "High", "score": 59.9, "open_ch": 4, "sla": 8, "attempts": 72, "excessive": 0, "tools_count": 10}, {"agent_id": "AGT-0048", "name": "Custom-SAL-048", "platform": "Custom Agent", "business_unit": "Sales", "criticality": "High", "score": 59.1, "open_ch": 5, "sla": 8, "attempts": 81, "excessive": 0, "tools_count": 5}, {"agent_id": "AGT-0051", "name": "Custom-CUS-051", "platform": "Custom Agent", "business_unit": "Customer Support", "criticality": "Medium", "score": 58.3, "open_ch": 6, "sla": 7, "attempts": 17, "excessive": 0, "tools_count": 8}, {"agent_id": "AGT-0044", "name": "Anthropic-SAL-044", "platform": "Anthropic Claude", "business_unit": "Sales", "criticality": "Critical", "score": 57.1, "open_ch": 3, "sla": 4, "attempts": 141, "excessive": 1, "tools_count": 4}, {"agent_id": "AGT-0022", "name": "Custom-RIS-022", "platform": "Custom Agent", "business_unit": "Risk & Compliance", "criticality": "High", "score": 54.6, "open_ch": 4, "sla": 5, "attempts": 55, "excessive": 1, "tools_count": 3}, {"agent_id": "AGT-0053", "name": "Anthropic-FIN-053", "platform": "Anthropic Claude", "business_unit": "Finance", "criticality": "Critical", "score": 54.4, "open_ch": 3, "sla": 3, "attempts": 105, "excessive": 1, "tools_count": 12}, {"agent_id": "AGT-0012", "name": "Anthropic-RIS-012", "platform": "Anthropic Claude", "business_unit": "Risk & Compliance", "criticality": "Critical", "score": 53.9, "open_ch": 4, "sla": 3, "attempts": 132, "excessive": 0, "tools_count": 2}, {"agent_id": "AGT-0017", "name": "Custom-HR-017", "platform": "Custom Agent", "business_unit": "HR", "criticality": "Critical", "score": 53.0, "open_ch": 2, "sla": 3, "attempts": 133, "excessive": 1, "tools_count": 12}, {"agent_id": "AGT-0045", "name": "Custom-LEG-045", "platform": "Custom Agent", "business_unit": "Legal", "criticality": "Medium", "score": 52.9, "open_ch": 6, "sla": 9, "attempts": 12, "excessive": 0, "tools_count": 0}, {"agent_id": "AGT-0024", "name": "OpenAI-HR-024", "platform": "OpenAI Assistants", "business_unit": "HR", "criticality": "High", "score": 51.0, "open_ch": 3, "sla": 5, "attempts": 67, "excessive": 0, "tools_count": 2}, {"agent_id": "AGT-0009", "name": "Microsoft-SAL-009", "platform": "Microsoft Copilot", "business_unit": "Sales", "criticality": "Low", "score": 49.3, "open_ch": 6, "sla": 12, "attempts": 4, "excessive": 0, "tools_count": 4}, {"agent_id": "AGT-0038", "name": "OpenAI-ENG-038", "platform": "OpenAI Assistants", "business_unit": "Engineering", "criticality": "Medium", "score": 47.5, "open_ch": 3, "sla": 5, "attempts": 14, "excessive": 0, "tools_count": 8}, {"agent_id": "AGT-0040", "name": "Microsoft-CUS-040", "platform": "Microsoft Copilot", "business_unit": "Customer Support", "criticality": "High", "score": 47.3, "open_ch": 2, "sla": 5, "attempts": 64, "excessive": 0, "tools_count": 5}, {"agent_id": "AGT-0049", "name": "OpenAI-MAR-049", "platform": "OpenAI Assistants", "business_unit": "Marketing", "criticality": "Medium", "score": 46.8, "open_ch": 4, "sla": 8, "attempts": 24, "excessive": 0, "tools_count": 4}, {"agent_id": "AGT-0031", "name": "Custom-CUS-031", "platform": "Custom Agent", "business_unit": "Customer Support", "criticality": "Low", "score": 45.8, "open_ch": 5, "sla": 6, "attempts": 4, "excessive": 0, "tools_count": 5}, {"agent_id": "AGT-0023", "name": "OpenAI-LEG-023", "platform": "OpenAI Assistants", "business_unit": "Legal", "criticality": "Medium", "score": 45.2, "open_ch": 2, "sla": 10, "attempts": 16, "excessive": 1, "tools_count": 10}, {"agent_id": "AGT-0004", "name": "Anthropic-CUS-004", "platform": "Anthropic Claude", "business_unit": "Customer Support", "criticality": "High", "score": 44.3, "open_ch": 2, "sla": 4, "attempts": 77, "excessive": 1, "tools_count": 5}, {"agent_id": "AGT-0001", "name": "Microsoft-FIN-001", "platform": "Microsoft Copilot", "business_unit": "Finance", "criticality": "Medium", "score": 44.1, "open_ch": 2, "sla": 8, "attempts": 15, "excessive": 0, "tools_count": 11}, {"agent_id": "AGT-0016", "name": "Anthropic-FIN-016", "platform": "Anthropic Claude", "business_unit": "Finance", "criticality": "Medium", "score": 43.9, "open_ch": 3, "sla": 5, "attempts": 18, "excessive": 1, "tools_count": 5}, {"agent_id": "AGT-0005", "name": "Custom-HR-005", "platform": "Custom Agent", "business_unit": "HR", "criticality": "Low", "score": 42.4, "open_ch": 4, "sla": 6, "attempts": 5, "excessive": 0, "tools_count": 4}, {"agent_id": "AGT-0006", "name": "Microsoft-SAL-006", "platform": "Microsoft Copilot", "business_unit": "Sales", "criticality": "Medium", "score": 40.4, "open_ch": 2, "sla": 6, "attempts": 18, "excessive": 1, "tools_count": 3}, {"agent_id": "AGT-0037", "name": "Microsoft-HR-037", "platform": "Microsoft Copilot", "business_unit": "HR", "criticality": "Medium", "score": 40.1, "open_ch": 2, "sla": 7, "attempts": 14, "excessive": 1, "tools_count": 0}, {"agent_id": "AGT-0058", "name": "Anthropic-MAR-058", "platform": "Anthropic Claude", "business_unit": "Marketing", "criticality": "Medium", "score": 40.1, "open_ch": 2, "sla": 5, "attempts": 15, "excessive": 1, "tools_count": 3}, {"agent_id": "AGT-0028", "name": "Anthropic-FIN-028", "platform": "Anthropic Claude", "business_unit": "Finance", "criticality": "Medium", "score": 39.6, "open_ch": 2, "sla": 8, "attempts": 21, "excessive": 0, "tools_count": 5}, {"agent_id": "AGT-0018", "name": "Custom-ENG-018", "platform": "Custom Agent", "business_unit": "Engineering", "criticality": "High", "score": 39.2, "open_ch": 2, "sla": 3, "attempts": 76, "excessive": 1, "tools_count": 3}, {"agent_id": "AGT-0039", "name": "Anthropic-FIN-039", "platform": "Anthropic Claude", "business_unit": "Finance", "criticality": "Low", "score": 39.0, "open_ch": 3, "sla": 6, "attempts": 7, "excessive": 0, "tools_count": 6}, {"agent_id": "AGT-0003", "name": "Custom-MAR-003", "platform": "Custom Agent", "business_unit": "Marketing", "criticality": "Low", "score": 38.9, "open_ch": 3, "sla": 6, "attempts": 5, "excessive": 0, "tools_count": 2}, {"agent_id": "AGT-0011", "name": "Anthropic-MAR-011", "platform": "Anthropic Claude", "business_unit": "Marketing", "criticality": "Medium", "score": 38.3, "open_ch": 3, "sla": 4, "attempts": 11, "excessive": 1, "tools_count": 6}, {"agent_id": "AGT-0050", "name": "LangGraph-ENG-050", "platform": "LangGraph", "business_unit": "Engineering", "criticality": "Medium", "score": 37.5, "open_ch": 1, "sla": 5, "attempts": 27, "excessive": 1, "tools_count": 0}, {"agent_id": "AGT-0047", "name": "Custom-HR-047", "platform": "Custom Agent", "business_unit": "HR", "criticality": "High", "score": 36.9, "open_ch": 2, "sla": 3, "attempts": 59, "excessive": 0, "tools_count": 0}, {"agent_id": "AGT-0042", "name": "OpenAI-LEG-042", "platform": "OpenAI Assistants", "business_unit": "Legal", "criticality": "Low", "score": 36.7, "open_ch": 2, "sla": 6, "attempts": 9, "excessive": 1, "tools_count": 3}, {"agent_id": "AGT-0041", "name": "Anthropic-ENG-041", "platform": "Anthropic Claude", "business_unit": "Engineering", "criticality": "Low", "score": 35.5, "open_ch": 2, "sla": 5, "attempts": 7, "excessive": 0, "tools_count": 6}, {"agent_id": "AGT-0057", "name": "Custom-LEG-057", "platform": "Custom Agent", "business_unit": "Legal", "criticality": "Low", "score": 35.3, "open_ch": 2, "sla": 6, "attempts": 4, "excessive": 0, "tools_count": 2}, {"agent_id": "AGT-0019", "name": "OpenAI-RIS-019", "platform": "OpenAI Assistants", "business_unit": "Risk & Compliance", "criticality": "Low", "score": 35.2, "open_ch": 2, "sla": 5, "attempts": 3, "excessive": 0, "tools_count": 3}, {"agent_id": "AGT-0013", "name": "LangGraph-LEG-013", "platform": "LangGraph", "business_unit": "Legal", "criticality": "Medium", "score": 32.9, "open_ch": 1, "sla": 3, "attempts": 18, "excessive": 2, "tools_count": 8}, {"agent_id": "AGT-0008", "name": "Anthropic-ENG-008", "platform": "Anthropic Claude", "business_unit": "Engineering", "criticality": "Medium", "score": 32.1, "open_ch": 1, "sla": 3, "attempts": 22, "excessive": 1, "tools_count": 10}, {"agent_id": "AGT-0043", "name": "Microsoft-LEG-043", "platform": "Microsoft Copilot", "business_unit": "Legal", "criticality": "Low", "score": 31.4, "open_ch": 2, "sla": 4, "attempts": 6, "excessive": 1, "tools_count": 3}, {"agent_id": "AGT-0025", "name": "Anthropic-HR-025", "platform": "Anthropic Claude", "business_unit": "HR", "criticality": "Medium", "score": 31.3, "open_ch": 1, "sla": 4, "attempts": 24, "excessive": 0, "tools_count": 1}, {"agent_id": "AGT-0026", "name": "Anthropic-ENG-026", "platform": "Anthropic Claude", "business_unit": "Engineering", "criticality": "Medium", "score": 30.9, "open_ch": 1, "sla": 4, "attempts": 18, "excessive": 0, "tools_count": 6}, {"agent_id": "AGT-0034", "name": "Custom-MAR-034", "platform": "Custom Agent", "business_unit": "Marketing", "criticality": "Medium", "score": 30.6, "open_ch": 1, "sla": 3, "attempts": 14, "excessive": 0, "tools_count": 8}, {"agent_id": "AGT-0015", "name": "OpenAI-ENG-015", "platform": "OpenAI Assistants", "business_unit": "Engineering", "criticality": "Medium", "score": 30.5, "open_ch": 1, "sla": 4, "attempts": 13, "excessive": 0, "tools_count": 4}, {"agent_id": "AGT-0054", "name": "Custom-SAL-054", "platform": "Custom Agent", "business_unit": "Sales", "criticality": "Medium", "score": 30.0, "open_ch": 2, "sla": 3, "attempts": 14, "excessive": 1, "tools_count": 3}, {"agent_id": "AGT-0002", "name": "Microsoft-FIN-002", "platform": "Microsoft Copilot", "business_unit": "Finance", "criticality": "Critical", "score": 27.1, "open_ch": 0, "sla": 0, "attempts": 162, "excessive": 0, "tools_count": 0}, {"agent_id": "AGT-0027", "name": "LangGraph-MAR-027", "platform": "LangGraph", "business_unit": "Marketing", "criticality": "Low", "score": 26.8, "open_ch": 1, "sla": 4, "attempts": 4, "excessive": 0, "tools_count": 6}, {"agent_id": "AGT-0014", "name": "Custom-MAR-014", "platform": "Custom Agent", "business_unit": "Marketing", "criticality": "Medium", "score": 21.6, "open_ch": 1, "sla": 2, "attempts": 14, "excessive": 1, "tools_count": 6}, {"agent_id": "AGT-0020", "name": "Custom-SAL-020", "platform": "Custom Agent", "business_unit": "Sales", "criticality": "Medium", "score": 17.0, "open_ch": 0, "sla": 1, "attempts": 13, "excessive": 0, "tools_count": 10}], "fw_compliance": [{"framework_id": "FW-OWASP", "name": "OWASP LLM Top 10 (2025)", "compliance": 81.8}, {"framework_id": "FW-ATLAS", "name": "MITRE ATLAS", "compliance": 83.8}, {"framework_id": "FW-NIST", "name": "NIST AI RMF 1.0", "compliance": 79.2}, {"framework_id": "FW-EUAI", "name": "EU AI Act", "compliance": 88.1}, {"framework_id": "FW-ISO", "name": "ISO/IEC 42001:2023", "compliance": 83.3}], "open_by_sev": [{"severity": "Critical", "count": 89, "color": "#C00000"}, {"severity": "High", "count": 103, "color": "#E97132"}, {"severity": "Medium", "count": 119, "color": "#FFC000"}, {"severity": "Low", "count": 69, "color": "#2E75B6"}, {"severity": "Info", "count": 14, "color": "#7F7F7F"}], "cost_series": [["2026-03-01", 7.3763000000000005], ["2026-03-02", 8.0995], ["2026-03-03", 18.958500000000004], ["2026-03-04", 12.8945], ["2026-03-05", 20.83149999999999], ["2026-03-06", 12.350600000000004], ["2026-03-07", 4.3779], ["2026-03-08", 7.4146], ["2026-03-09", 10.1121], ["2026-03-10", 13.417899999999998], ["2026-03-11", 11.559000000000001], ["2026-03-12", 12.529900000000003], ["2026-03-13", 14.189000000000005], ["2026-03-14", 5.281700000000001], ["2026-03-15", 5.826599999999999], ["2026-03-16", 18.297299999999996], ["2026-03-17", 13.562599999999998], ["2026-03-18", 9.7501], ["2026-03-19", 16.574199999999998], ["2026-03-20", 14.141700000000002], ["2026-03-21", 6.094999999999998], ["2026-03-22", 6.2007], ["2026-03-23", 12.181199999999999], ["2026-03-24", 9.8218], ["2026-03-25", 13.261800000000004], ["2026-03-26", 11.523500000000006], ["2026-03-27", 16.624299999999998], ["2026-03-28", 4.8664000000000005], ["2026-03-29", 4.955699999999999], ["2026-03-30", 15.9103], ["2026-03-31", 11.312899999999999], ["2026-04-01", 16.7973], ["2026-04-02", 12.021299999999998], ["2026-04-03", 13.856599999999997], ["2026-04-04", 7.999900000000001], ["2026-04-05", 5.492], ["2026-04-06", 14.487099999999998], ["2026-04-07", 16.5204], ["2026-04-08", 15.821200000000003], ["2026-04-09", 11.856199999999996], ["2026-04-10", 11.5773], ["2026-04-11", 4.030699999999999], ["2026-04-12", 4.563900000000001], ["2026-04-13", 12.852500000000001], ["2026-04-14", 12.4731], ["2026-04-15", 17.428699999999996], ["2026-04-16", 8.203499999999998], ["2026-04-17", 8.408099999999997], ["2026-04-18", 7.111600000000001], ["2026-04-19", 4.6107999999999985], ["2026-04-20", 15.895199999999999], ["2026-04-21", 26.0554], ["2026-04-22", 18.177199999999996], ["2026-04-23", 23.845699999999997], ["2026-04-24", 18.915499999999998], ["2026-04-25", 5.805700000000001], ["2026-04-26", 8.0027], ["2026-04-27", 12.450000000000001], ["2026-04-28", 14.784899999999995], ["2026-04-29", 14.755999999999998], ["2026-04-30", 7.5901999999999985], ["2026-05-01", 19.9861], ["2026-05-02", 4.0799], ["2026-05-03", 6.9597], ["2026-05-04", 15.349700000000004], ["2026-05-05", 21.172800000000002], ["2026-05-06", 16.234199999999998], ["2026-05-07", 14.7986], ["2026-05-08", 8.320899999999998], ["2026-05-09", 4.220400000000001], ["2026-05-10", 4.326099999999999], ["2026-05-11", 18.56480000000001], ["2026-05-12", 14.414400000000002], ["2026-05-13", 14.4582], ["2026-05-14", 20.041999999999998], ["2026-05-15", 13.649999999999999], ["2026-05-16", 8.000800000000003], ["2026-05-17", 5.3873999999999995], ["2026-05-18", 8.3288], ["2026-05-19", 12.612599999999999], ["2026-05-20", 11.741900000000001], ["2026-05-21", 13.333800000000004], ["2026-05-22", 18.300400000000014], ["2026-05-23", 3.7102000000000017], ["2026-05-24", 7.988899999999998], ["2026-05-25", 20.087900000000005], ["2026-05-26", 15.45410000000001], ["2026-05-27", 11.544699999999999], ["2026-05-28", 17.940200000000004], ["2026-05-29", 16.884200000000003], ["2026-05-30", 8.418400000000002]], "aging": {"0-7d": 21, "8-30d": 45, "31-90d": 122, "91d+": 206}, "status_counts": {"false_positive": 64, "open": 235, "remediated": 214, "in_progress": 159, "accepted_risk": 28}, "open_list": [{"violation_id": "VIO-00374", "agent": "Microsoft-ENG-035", "control": "LLM Prompt Injection", "severity": "Critical", "detected_date": "2025-12-01", "due_date": "2025-12-04", "status": "open", "days_overdue": 177}, {"violation_id": "VIO-00098", "agent": "Anthropic-FIN-016", "control": "Privacy risk identified and managed", "severity": "Critical", "detected_date": "2025-12-06", "due_date": "2025-12-09", "status": "in_progress", "days_overdue": 172}, {"violation_id": "VIO-00434", "agent": "Microsoft-LEG-055", "control": "Vector and Embedding Weaknesses", "severity": "Critical", "detected_date": "2025-12-06", "due_date": "2025-12-09", "status": "open", "days_overdue": 172}, {"violation_id": "VIO-00613", "agent": "OpenAI-LEG-023", "control": "AI System Impact Assessment", "severity": "Critical", "detected_date": "2025-12-06", "due_date": "2025-12-09", "status": "open", "days_overdue": 172}, {"violation_id": "VIO-00651", "agent": "Anthropic-MAR-033", "control": "ML Model Inference API Access", "severity": "Critical", "detected_date": "2025-12-06", "due_date": "2025-12-09", "status": "open", "days_overdue": 172}, {"violation_id": "VIO-00236", "agent": "Custom-HR-047", "control": "Responses to AI risks documented", "severity": "Critical", "detected_date": "2025-12-07", "due_date": "2025-12-10", "status": "open", "days_overdue": 171}, {"violation_id": "VIO-00152", "agent": "Custom-HR-005", "control": "Scientific integrity & TEVV considerations", "severity": "Critical", "detected_date": "2025-12-08", "due_date": "2025-12-11", "status": "in_progress", "days_overdue": 170}, {"violation_id": "VIO-00156", "agent": "OpenAI-SAL-059", "control": "AI System Data Management", "severity": "Critical", "detected_date": "2025-12-10", "due_date": "2025-12-13", "status": "in_progress", "days_overdue": 168}, {"violation_id": "VIO-00260", "agent": "Anthropic-MAR-033", "control": "Governance policies are in place", "severity": "Critical", "detected_date": "2025-12-10", "due_date": "2025-12-13", "status": "open", "days_overdue": 168}, {"violation_id": "VIO-00080", "agent": "Custom-LEG-045", "control": "Exfiltration via ML Inference API", "severity": "Critical", "detected_date": "2025-12-13", "due_date": "2025-12-16", "status": "in_progress", "days_overdue": 165}, {"violation_id": "VIO-00451", "agent": "OpenAI-ENG-015", "control": "LLM Prompt Injection", "severity": "Critical", "detected_date": "2025-12-13", "due_date": "2025-12-16", "status": "open", "days_overdue": 165}, {"violation_id": "VIO-00569", "agent": "OpenAI-FIN-046", "control": "Transparency to deployers", "severity": "Critical", "detected_date": "2025-12-13", "due_date": "2025-12-16", "status": "open", "days_overdue": 165}, {"violation_id": "VIO-00672", "agent": "Anthropic-SAL-044", "control": "Supply Chain", "severity": "Critical", "detected_date": "2025-12-14", "due_date": "2025-12-17", "status": "open", "days_overdue": 164}, {"violation_id": "VIO-00638", "agent": "Custom-LEG-057", "control": "Supply Chain", "severity": "Critical", "detected_date": "2025-12-15", "due_date": "2025-12-18", "status": "open", "days_overdue": 163}, {"violation_id": "VIO-00185", "agent": "Custom-CUS-031", "control": "ML Model Inference API Access", "severity": "Critical", "detected_date": "2025-12-16", "due_date": "2025-12-19", "status": "open", "days_overdue": 162}, {"violation_id": "VIO-00396", "agent": "Microsoft-CUS-021", "control": "Misinformation", "severity": "Critical", "detected_date": "2025-12-16", "due_date": "2025-12-19", "status": "open", "days_overdue": 162}, {"violation_id": "VIO-00256", "agent": "Anthropic-SAL-060", "control": "Scientific integrity & TEVV considerations", "severity": "Critical", "detected_date": "2025-12-17", "due_date": "2025-12-20", "status": "in_progress", "days_overdue": 161}, {"violation_id": "VIO-00387", "agent": "Anthropic-MAR-058", "control": "LLM Prompt Injection", "severity": "Critical", "detected_date": "2025-12-21", "due_date": "2025-12-24", "status": "open", "days_overdue": 157}, {"violation_id": "VIO-00231", "agent": "Custom-CUS-010", "control": "AI System Impact Assessment", "severity": "Critical", "detected_date": "2025-12-25", "due_date": "2025-12-28", "status": "open", "days_overdue": 153}, {"violation_id": "VIO-00694", "agent": "Custom-HR-017", "control": "LLM Jailbreak", "severity": "Critical", "detected_date": "2025-12-25", "due_date": "2025-12-28", "status": "open", "days_overdue": 153}, {"violation_id": "VIO-00456", "agent": "Custom-MAR-003", "control": "Excessive Agency", "severity": "Critical", "detected_date": "2025-12-27", "due_date": "2025-12-30", "status": "open", "days_overdue": 151}, {"violation_id": "VIO-00066", "agent": "OpenAI-RIS-032", "control": "Supply Chain", "severity": "Critical", "detected_date": "2025-12-30", "due_date": "2026-01-02", "status": "open", "days_overdue": 148}, {"violation_id": "VIO-00622", "agent": "Custom-HR-017", "control": "System Prompt Leakage", "severity": "Critical", "detected_date": "2026-01-02", "due_date": "2026-01-05", "status": "in_progress", "days_overdue": 145}, {"violation_id": "VIO-00647", "agent": "Microsoft-SAL-009", "control": "AI System Impact Assessment", "severity": "Critical", "detected_date": "2026-01-04", "due_date": "2026-01-07", "status": "open", "days_overdue": 143}, {"violation_id": "VIO-00413", "agent": "Anthropic-MAR-033", "control": "Privacy risk identified and managed", "severity": "Critical", "detected_date": "2026-01-05", "due_date": "2026-01-08", "status": "open", "days_overdue": 142}, {"violation_id": "VIO-00429", "agent": "Anthropic-FIN-053", "control": "Post-deployment monitoring planned", "severity": "Critical", "detected_date": "2026-01-05", "due_date": "2026-01-08", "status": "open", "days_overdue": 142}, {"violation_id": "VIO-00353", "agent": "Anthropic-RIS-012", "control": "AI System Monitoring & Review", "severity": "Critical", "detected_date": "2026-01-07", "due_date": "2026-01-10", "status": "in_progress", "days_overdue": 140}, {"violation_id": "VIO-00489", "agent": "OpenAI-CUS-052", "control": "Improper Output Handling", "severity": "Critical", "detected_date": "2026-01-08", "due_date": "2026-01-11", "status": "in_progress", "days_overdue": 139}, {"violation_id": "VIO-00479", "agent": "Microsoft-LEG-043", "control": "ML Model Inference API Access", "severity": "Critical", "detected_date": "2026-01-11", "due_date": "2026-01-14", "status": "in_progress", "days_overdue": 136}, {"violation_id": "VIO-00659", "agent": "Microsoft-LEG-055", "control": "Excessive Agency", "severity": "Critical", "detected_date": "2026-01-11", "due_date": "2026-01-14", "status": "in_progress", "days_overdue": 136}, {"violation_id": "VIO-00278", "agent": "Microsoft-RIS-056", "control": "AI system security & resilience tested", "severity": "Critical", "detected_date": "2026-01-13", "due_date": "2026-01-16", "status": "in_progress", "days_overdue": 134}, {"violation_id": "VIO-00530", "agent": "Custom-CUS-031", "control": "Responses to AI risks documented", "severity": "Critical", "detected_date": "2026-01-14", "due_date": "2026-01-17", "status": "open", "days_overdue": 133}, {"violation_id": "VIO-00310", "agent": "Custom-CUS-010", "control": "LLM Jailbreak", "severity": "Critical", "detected_date": "2026-01-16", "due_date": "2026-01-19", "status": "open", "days_overdue": 131}, {"violation_id": "VIO-00271", "agent": "OpenAI-ENG-038", "control": "Transparency obligations for general-purpose AI", "severity": "Critical", "detected_date": "2026-01-20", "due_date": "2026-01-23", "status": "in_progress", "days_overdue": 127}, {"violation_id": "VIO-00564", "agent": "OpenAI-CUS-052", "control": "Transparency to deployers", "severity": "Critical", "detected_date": "2026-01-23", "due_date": "2026-01-26", "status": "in_progress", "days_overdue": 124}, {"violation_id": "VIO-00450", "agent": "Anthropic-MAR-058", "control": "Full ML Model Access", "severity": "Critical", "detected_date": "2026-01-30", "due_date": "2026-02-02", "status": "in_progress", "days_overdue": 117}, {"violation_id": "VIO-00442", "agent": "Custom-RIS-022", "control": "Vector and Embedding Weaknesses", "severity": "Critical", "detected_date": "2026-02-01", "due_date": "2026-02-04", "status": "open", "days_overdue": 115}, {"violation_id": "VIO-00067", "agent": "Microsoft-LEG-055", "control": "Transparency to deployers", "severity": "Critical", "detected_date": "2026-02-03", "due_date": "2026-02-06", "status": "open", "days_overdue": 113}, {"violation_id": "VIO-00327", "agent": "OpenAI-ENG-007", "control": "Misinformation", "severity": "Critical", "detected_date": "2026-02-09", "due_date": "2026-02-12", "status": "in_progress", "days_overdue": 107}, {"violation_id": "VIO-00690", "agent": "Microsoft-HR-037", "control": "Misinformation", "severity": "Critical", "detected_date": "2026-02-11", "due_date": "2026-02-14", "status": "in_progress", "days_overdue": 105}, {"violation_id": "VIO-00573", "agent": "LangGraph-LEG-013", "control": "Scientific integrity & TEVV considerations", "severity": "Critical", "detected_date": "2026-02-13", "due_date": "2026-02-16", "status": "open", "days_overdue": 103}, {"violation_id": "VIO-00565", "agent": "OpenAI-RIS-032", "control": "Sensitive Information Disclosure", "severity": "Critical", "detected_date": "2026-02-14", "due_date": "2026-02-17", "status": "open", "days_overdue": 102}, {"violation_id": "VIO-00040", "agent": "Anthropic-CUS-036", "control": "Improper Output Handling", "severity": "Critical", "detected_date": "2026-02-15", "due_date": "2026-02-18", "status": "in_progress", "days_overdue": 101}, {"violation_id": "VIO-00275", "agent": "Custom-HR-005", "control": "Accuracy, robustness, cybersecurity", "severity": "Critical", "detected_date": "2026-02-15", "due_date": "2026-02-18", "status": "open", "days_overdue": 101}, {"violation_id": "VIO-00311", "agent": "Custom-CUS-051", "control": "Post-deployment monitoring planned", "severity": "Critical", "detected_date": "2026-02-16", "due_date": "2026-02-19", "status": "in_progress", "days_overdue": 100}, {"violation_id": "VIO-00552", "agent": "Anthropic-FIN-053", "control": "Scientific integrity & TEVV considerations", "severity": "Critical", "detected_date": "2026-02-17", "due_date": "2026-02-20", "status": "in_progress", "days_overdue": 99}, {"violation_id": "VIO-00089", "agent": "OpenAI-CUS-052", "control": "AI System Monitoring & Review", "severity": "Critical", "detected_date": "2026-02-18", "due_date": "2026-02-21", "status": "open", "days_overdue": 98}, {"violation_id": "VIO-00133", "agent": "Custom-SAL-048", "control": "Data and data governance", "severity": "Critical", "detected_date": "2026-02-22", "due_date": "2026-02-25", "status": "in_progress", "days_overdue": 94}, {"violation_id": "VIO-00073", "agent": "Microsoft-CUS-021", "control": "Data and Model Poisoning", "severity": "Critical", "detected_date": "2026-02-24", "due_date": "2026-02-27", "status": "in_progress", "days_overdue": 92}, {"violation_id": "VIO-00097", "agent": "LangGraph-MAR-027", "control": "Full ML Model Access", "severity": "Critical", "detected_date": "2026-02-25", "due_date": "2026-02-28", "status": "open", "days_overdue": 91}], "top_agents_cost": [{"agent": "Anthropic-FIN-053", "cost": 313.13}, {"agent": "Anthropic-SAL-044", "cost": 292.84}, {"agent": "Anthropic-RIS-012", "cost": 273.41}, {"agent": "Anthropic-SAL-060", "cost": 184.88}, {"agent": "Anthropic-LEG-030", "cost": 124.0}, {"agent": "Microsoft-CUS-021", "cost": 80.12}, {"agent": "Anthropic-MAR-033", "cost": 75.23}, {"agent": "Microsoft-FIN-002", "cost": 71.2}, {"agent": "Anthropic-CUS-036", "cost": 65.99}, {"agent": "Custom-HR-017", "cost": 64.2}, {"agent": "Anthropic-CUS-004", "cost": 63.66}, {"agent": "Custom-ENG-029", "cost": 56.1}, {"agent": "Anthropic-HR-025", "cost": 33.37}, {"agent": "Anthropic-ENG-008", "cost": 31.96}, {"agent": "OpenAI-CUS-052", "cost": 31.32}], "by_model": [{"model": "claude-opus-4-7", "cost": 1272.9}, {"model": "claude-sonnet-4-6", "cost": 243.41}, {"model": "gpt-4o", "cost": 191.29}, {"model": "gemini-1.5-pro", "cost": 163.05}, {"model": "gpt-4.1", "cost": 132.73}, {"model": "mistral-large", "cost": 91.75}, {"model": "claude-haiku-4-5", "cost": 61.91}, {"model": "o3-mini", "cost": 33.49}, {"model": "gpt-4o-mini", "cost": 11.96}, {"model": "llama-3.1-8b", "cost": 5.4}], "events_by_type": {"jailbreak_attempt": 603, "tool_misuse_blocked": 708, "rate_limit_hit": 1518, "prompt_injection_attempt": 1243, "embedding_anomaly": 456, "pii_leak_blocked": 980, "system_prompt_disclosed": 397, "policy_violation": 839, "hallucination_flagged": 785, "supply_chain_alert": 234}, "runtime_series": [["2026-04-30", 261], ["2026-05-01", 267], ["2026-05-02", 255], ["2026-05-03", 264], ["2026-05-04", 276], ["2026-05-05", 286], ["2026-05-06", 283], ["2026-05-07", 227], ["2026-05-08", 256], ["2026-05-09", 269], ["2026-05-10", 257], ["2026-05-11", 225], ["2026-05-12", 257], ["2026-05-13", 228], ["2026-05-14", 211], ["2026-05-15", 230], ["2026-05-16", 222], ["2026-05-17", 223], ["2026-05-18", 254], ["2026-05-19", 216], ["2026-05-20", 221], ["2026-05-21", 223], ["2026-05-22", 264], ["2026-05-23", 252], ["2026-05-24", 263], ["2026-05-25", 232], ["2026-05-26", 266], ["2026-05-27", 273], ["2026-05-28", 279], ["2026-05-29", 276], ["2026-05-30", 247]], "design_sev_counts": {"Medium": 47, "Low": 15, "High": 22, "Critical": 25}, "design_titles": [["eval suite < 50 prompts", 21], ["model card incomplete", 15], ["training data lineage missing", 15], ["missing system prompt hardening", 14], ["tools wildcard granted", 13], ["no human-in-the-loop on sensitive tools", 12], ["no rate limit configured", 11], ["RAG corpus missing PII filter", 8]], "fpa_by_fw": [["OWASP LLM Top 10 (2025)", 1442], ["MITRE ATLAS", 1116], ["NIST AI RMF 1.0", 1064], ["EU AI Act", 546], ["ISO/IEC 42001:2023", 512]], "fpa_by_bu": [["Customer Support", 786], ["Legal", 702], ["Sales", 686], ["Marketing", 668], ["Engineering", 540], ["Finance", 470], ["Risk & Compliance", 418], ["HR", 410]], "theme": {"primary": "#1F4E79", "primary2": "#2E75B6", "primary3": "#5B9BD5", "critical": "#C00000", "high": "#E97132", "medium": "#FFC000", "low": "#2E75B6", "info": "#7F7F7F", "compliant": "#548235", "bg": "#F4F6F9", "card_bg": "#FFFFFF", "ink": "#1F1F1F", "muted": "#5B5B5B"}, "sev_color": {"Critical": "#C00000", "High": "#E97132", "Medium": "#FFC000", "Low": "#2E75B6", "Info": "#7F7F7F"}};
+const T = PAYLOAD.theme;
+const SC = PAYLOAD.sev_color;
+
+const fmtUSD = n => "$" + (n || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const fmtUSD0 = n => "$" + (n || 0).toLocaleString(undefined, {maximumFractionDigits: 0});
+const fmtInt = n => (n || 0).toLocaleString();
+
+// ─── tabs ─────────────────────────────────────────────────────────────────
+document.querySelectorAll("#nav button").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll("#nav button").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.page).classList.add("active");
+    setTimeout(() => window.dispatchEvent(new Event("resize")), 50);
+  };
+});
+document.querySelector("#nav button").classList.add("active");
+
+const baseLayout = {
+  paper_bgcolor: T.card_bg,
+  plot_bgcolor: T.card_bg,
+  font: { family: "Segoe UI, system-ui, sans-serif", color: T.ink, size: 11 },
+  margin: { l: 60, r: 16, t: 28, b: 50 },
+};
+
+// ─── PAGE 1 — Executive Summary ───────────────────────────────────────────
+const s = PAYLOAD.summary;
+document.getElementById("kpi-total").textContent    = fmtInt(s.total_agents);
+document.getElementById("kpi-critical").textContent = fmtInt(s.critical_agents);
+document.getElementById("kpi-open").textContent     = fmtInt(s.open_violations);
+document.getElementById("kpi-sla").textContent      = fmtInt(s.sla_breaches);
+document.getElementById("kpi-cost").textContent     = fmtUSD0(s.cost_mtd);
+
+Plotly.newPlot("chart-compliance", [{
+  type: "bar", orientation: "h",
+  x: PAYLOAD.fw_compliance.map(f => f.compliance),
+  y: PAYLOAD.fw_compliance.map(f => f.name),
+  marker: { color: PAYLOAD.fw_compliance.map(f => f.compliance >= 90 ? T.compliant : f.compliance >= 70 ? T.medium : T.critical) },
+  text: PAYLOAD.fw_compliance.map(f => f.compliance + "%"),
+  textposition: "auto",
+}], {...baseLayout, xaxis: {range: [0, 100], title: "compliance %"}, margin: {...baseLayout.margin, l: 180}}, {displayModeBar: false, responsive: true});
+
+const top10 = PAYLOAD.agents.slice(0, 10);
+Plotly.newPlot("chart-top-risky", [{
+  type: "bar", orientation: "h",
+  x: top10.map(a => a.score).reverse(),
+  y: top10.map(a => a.name).reverse(),
+  marker: { color: top10.map(a => a.score >= 75 ? T.critical : a.score >= 50 ? T.high : T.medium).reverse() },
+  text: top10.map(a => a.score.toFixed(1)).reverse(),
+  textposition: "auto",
+}], {...baseLayout, xaxis: { title: "risk score (0-100)"}, margin: {...baseLayout.margin, l: 160}}, {displayModeBar: false, responsive: true});
+
+Plotly.newPlot("chart-open-sev", [{
+  type: "pie", hole: 0.5,
+  labels: PAYLOAD.open_by_sev.map(x => x.severity),
+  values: PAYLOAD.open_by_sev.map(x => x.count),
+  marker: { colors: PAYLOAD.open_by_sev.map(x => x.color) },
+  textinfo: "label+value",
+}], baseLayout, {displayModeBar: false, responsive: true});
+
+Plotly.newPlot("chart-cost-trend", [{
+  type: "scatter", mode: "lines",
+  x: PAYLOAD.cost_series.map(d => d[0]),
+  y: PAYLOAD.cost_series.map(d => d[1]),
+  line: { color: T.primary, width: 2 }, fill: "tozeroy", fillcolor: T.primary3 + "33",
+}], {...baseLayout, yaxis: {title: "USD/day"}}, {displayModeBar: false, responsive: true});
+
+// ─── PAGE 2 — Risk table ───────────────────────────────────────────────────
+const riskHead = ["#", "Agent", "Platform", "BU", "Criticality", "Score", "C/H Open", "SLA", "Attempts 30D"];
+const riskRows = PAYLOAD.agents.map((a, i) => `
+  <tr>
+    <td>${i+1}</td>
+    <td>${a.name}</td>
+    <td>${a.platform}</td>
+    <td>${a.business_unit}</td>
+    <td>${a.criticality}</td>
+    <td><span class="pill ${a.score >= 75 ? 'Critical' : a.score >= 50 ? 'High' : a.score >= 25 ? 'Medium' : 'Low'}">${a.score.toFixed(1)}</span></td>
+    <td>${a.open_ch}</td>
+    <td>${a.sla}</td>
+    <td>${a.attempts}</td>
+  </tr>`).join("");
+document.getElementById("risk-table").innerHTML =
+  `<thead><tr>${riskHead.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${riskRows}</tbody>`;
+
+// ─── PAGE 3 — Framework compliance ─────────────────────────────────────────
+const fwHtml = PAYLOAD.fw_compliance.map(f =>
+  `<div class="card" style="text-align:center">
+     <h3>${f.name.replace(/\\\(.*\\\)/, "").trim()}</h3>
+     <div class="num" style="color: ${f.compliance >= 90 ? T.compliant : f.compliance >= 70 ? T.medium : T.critical}">${f.compliance}%</div>
+   </div>`).join("");
+document.getElementById("fw-gauges").innerHTML = fwHtml;
+
+Plotly.newPlot("chart-fw-bars", [{
+  type: "bar",
+  x: PAYLOAD.fw_compliance.map(f => f.name),
+  y: PAYLOAD.fw_compliance.map(f => f.compliance),
+  marker: { color: PAYLOAD.fw_compliance.map(f => f.compliance >= 90 ? T.compliant : f.compliance >= 70 ? T.medium : T.critical) },
+  text: PAYLOAD.fw_compliance.map(f => f.compliance + "%"),
+  textposition: "auto",
+}], {...baseLayout, yaxis: { title: "compliance %", range: [0, 100] }}, {displayModeBar: false, responsive: true});
+
+// ─── PAGE 4 — Violations & Remediation ─────────────────────────────────────
+document.getElementById("kpi-open2").textContent      = fmtInt(s.open_violations);
+document.getElementById("kpi-mttr").textContent       = s.mttr ?? "—";
+document.getElementById("kpi-mttr-crit").textContent  = s.mttr_critical ?? "—";
+document.getElementById("kpi-sla-pct").textContent    = s.open_violations ? Math.round(s.sla_breaches / s.open_violations * 100) + "%" : "0%";
+document.getElementById("kpi-block").textContent      = s.block_rate + "%";
+
+Plotly.newPlot("chart-aging", [{
+  type: "bar",
+  x: Object.keys(PAYLOAD.aging),
+  y: Object.values(PAYLOAD.aging),
+  marker: { color: [T.compliant, T.medium, T.high, T.critical] },
+  text: Object.values(PAYLOAD.aging),
+  textposition: "auto",
+}], {...baseLayout, yaxis: { title: "open violations" }}, {displayModeBar: false, responsive: true});
+
+const statusLabels = Object.keys(PAYLOAD.status_counts);
+Plotly.newPlot("chart-status", [{
+  type: "pie", hole: 0.5,
+  labels: statusLabels,
+  values: statusLabels.map(k => PAYLOAD.status_counts[k]),
+  marker: { colors: [T.critical, T.high, T.compliant, "#7030A0", T.info] },
+}], baseLayout, {displayModeBar: false, responsive: true});
+
+const vHead = ["ID", "Agent", "Control", "Sev", "Detected", "Due", "Status", "Overdue (days)"];
+const vRows = PAYLOAD.open_list.map(v => `
+  <tr>
+    <td>${v.violation_id}</td><td>${v.agent}</td><td>${v.control}</td>
+    <td><span class="pill ${v.severity}">${v.severity}</span></td>
+    <td>${v.detected_date}</td><td>${v.due_date}</td>
+    <td>${v.status}</td>
+    <td style="color:${v.days_overdue > 0 ? T.critical : T.muted}">${v.days_overdue}</td>
+  </tr>`).join("");
+document.getElementById("violations-table").innerHTML =
+  `<thead><tr>${vHead.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${vRows}</tbody>`;
+
+// ─── PAGE 5 — Token consumption ────────────────────────────────────────────
+document.getElementById("kpi-cost-mtd").textContent = fmtUSD0(s.cost_mtd);
+document.getElementById("kpi-cost-ytd").textContent = fmtUSD0(s.cost_ytd);
+const last = PAYLOAD.cost_series.length ? PAYLOAD.cost_series[PAYLOAD.cost_series.length - 1][1] : 0;
+document.getElementById("kpi-cost-trend").textContent = fmtUSD0(last);
+document.getElementById("kpi-top-consumer").textContent = PAYLOAD.top_agents_cost[0] ? PAYLOAD.top_agents_cost[0].agent : "—";
+
+Plotly.newPlot("chart-cost-daily", [{
+  type: "scatter", mode: "lines",
+  x: PAYLOAD.cost_series.map(d => d[0]),
+  y: PAYLOAD.cost_series.map(d => d[1]),
+  line: { color: T.primary, width: 2 }, fill: "tozeroy", fillcolor: T.primary3 + "33",
+}], {...baseLayout, yaxis: { title: "USD/day" }}, {displayModeBar: false, responsive: true});
+
+Plotly.newPlot("chart-cost-model", [{
+  type: "pie", hole: 0.4,
+  labels: PAYLOAD.by_model.map(m => m.model),
+  values: PAYLOAD.by_model.map(m => m.cost),
+}], baseLayout, {displayModeBar: false, responsive: true});
+
+Plotly.newPlot("chart-cost-agents", [{
+  type: "bar", orientation: "h",
+  x: PAYLOAD.top_agents_cost.map(a => a.cost).reverse(),
+  y: PAYLOAD.top_agents_cost.map(a => a.agent).reverse(),
+  marker: { color: T.primary2 },
+  text: PAYLOAD.top_agents_cost.map(a => fmtUSD0(a.cost)).reverse(),
+  textposition: "auto",
+}], {...baseLayout, xaxis: { title: "USD" }, margin: {...baseLayout.margin, l: 180}}, {displayModeBar: false, responsive: true});
+
+// ─── PAGE 6 — Runtime events ───────────────────────────────────────────────
+const totalRuntime = Object.values(PAYLOAD.events_by_type).reduce((a,b) => a+b, 0);
+const piAttempts = PAYLOAD.events_by_type.prompt_injection_attempt || 0;
+const blocked30 = Math.round(totalRuntime * s.block_rate / 100);
+document.getElementById("kpi-runtime-total").textContent       = fmtInt(totalRuntime);
+document.getElementById("kpi-runtime-blocked").textContent     = fmtInt(blocked30);
+document.getElementById("kpi-runtime-block-rate").textContent  = s.block_rate + "%";
+document.getElementById("kpi-pi").textContent                  = fmtInt(piAttempts);
+
+Plotly.newPlot("chart-runtime-trend", [{
+  type: "scatter", mode: "lines",
+  x: PAYLOAD.runtime_series.map(d => d[0]),
+  y: PAYLOAD.runtime_series.map(d => d[1]),
+  line: { color: T.primary, width: 2 }, fill: "tozeroy", fillcolor: T.primary3 + "33",
+}], {...baseLayout, yaxis: { title: "events/day" }}, {displayModeBar: false, responsive: true});
+
+const rt = Object.entries(PAYLOAD.events_by_type).sort((a, b) => b[1] - a[1]);
+Plotly.newPlot("chart-runtime-type", [{
+  type: "bar", orientation: "h",
+  x: rt.map(e => e[1]).reverse(),
+  y: rt.map(e => e[0]).reverse(),
+  marker: { color: T.primary2 },
+}], {...baseLayout, margin: {...baseLayout.margin, l: 200} }, {displayModeBar: false, responsive: true});
+
+// ─── PAGE 7 — Design-time findings ─────────────────────────────────────────
+const designSev = Object.entries(PAYLOAD.design_sev_counts);
+Plotly.newPlot("chart-design-sev", [{
+  type: "pie", hole: 0.5,
+  labels: designSev.map(e => e[0]),
+  values: designSev.map(e => e[1]),
+  marker: { colors: designSev.map(e => SC[e[0]] || T.muted) },
+}], baseLayout, {displayModeBar: false, responsive: true});
+
+Plotly.newPlot("chart-design-titles", [{
+  type: "bar", orientation: "h",
+  x: PAYLOAD.design_titles.map(t => t[1]).reverse(),
+  y: PAYLOAD.design_titles.map(t => t[0]).reverse(),
+  marker: { color: T.primary2 },
+  text: PAYLOAD.design_titles.map(t => t[1]).reverse(),
+  textposition: "auto",
+}], {...baseLayout, margin: {...baseLayout.margin, l: 260}}, {displayModeBar: false, responsive: true});
+
+// ─── PAGE 8 — FPA capacity (interactive) ───────────────────────────────────
+function updateFpa() {
+  const rate = +document.getElementById("rate").value || 75;
+  const cap = +document.getElementById("cap").value || 120;
+  document.getElementById("kpi-fpa-open").textContent  = fmtInt(s.open_violations);
+  document.getElementById("kpi-fpa-hours").textContent = fmtInt(s.fpa_hours);
+  document.getElementById("kpi-fpa-crit").textContent  = fmtInt(s.fpa_critical);
+  document.getElementById("kpi-fpa-cost").textContent  = fmtUSD0(s.fpa_hours * rate);
+  document.getElementById("kpi-fpa-weeks").textContent = (s.fpa_hours / cap).toFixed(1) + " wks";
+}
+document.getElementById("rate").oninput = updateFpa;
+document.getElementById("cap").oninput  = updateFpa;
+updateFpa();
+
+Plotly.newPlot("chart-fpa-fw", [{
+  type: "bar",
+  x: PAYLOAD.fpa_by_fw.map(e => e[0]),
+  y: PAYLOAD.fpa_by_fw.map(e => e[1]),
+  marker: { color: T.primary2 },
+  text: PAYLOAD.fpa_by_fw.map(e => e[1]),
+  textposition: "auto",
+}], {...baseLayout, yaxis: { title: "hours" }}, {displayModeBar: false, responsive: true});
+
+Plotly.newPlot("chart-fpa-bu", [{
+  type: "bar",
+  x: PAYLOAD.fpa_by_bu.map(e => e[0]),
+  y: PAYLOAD.fpa_by_bu.map(e => e[1]),
+  marker: { color: T.primary3 },
+  text: PAYLOAD.fpa_by_bu.map(e => e[1]),
+  textposition: "auto",
+}], {...baseLayout, yaxis: { title: "hours" }}, {displayModeBar: false, responsive: true});
+
+// ─── PAGE 9 — Drill-through ────────────────────────────────────────────────
+const sel = document.getElementById("drill-select");
+PAYLOAD.agents.forEach(a => {
+  const opt = document.createElement("option");
+  opt.value = a.agent_id; opt.textContent = a.name + " — " + a.platform;
+  sel.appendChild(opt);
+});
+function renderDrill() {
+  const a = PAYLOAD.agents.find(x => x.agent_id === sel.value);
+  if (!a) return;
+  document.getElementById("drill-content").innerHTML = `
+    <div class="grid grid-4">
+      <div class="card"><h3>Risk score</h3><div class="num" style="color: ${a.score >= 75 ? T.critical : a.score >= 50 ? T.high : T.compliant}">${a.score.toFixed(1)}</div></div>
+      <div class="card"><h3>C/H violations</h3><div class="num">${a.open_ch}</div></div>
+      <div class="card"><h3>SLA breaches</h3><div class="num">${a.sla}</div></div>
+      <div class="card"><h3>Attempts 30D</h3><div class="num">${a.attempts}</div></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Metadata</h3>
+      <table class="data">
+        <tr><th>Agent ID</th><td>${a.agent_id}</td><th>Platform</th><td>${a.platform}</td></tr>
+        <tr><th>Business unit</th><td>${a.business_unit}</td><th>Criticality</th><td>${a.criticality}</td></tr>
+        <tr><th>Tools count</th><td>${a.tools_count}</td><th>Excessive-agency findings</th><td>${a.excessive}</td></tr>
+      </table>
+    </div>`;
+}
+sel.onchange = renderDrill;
+sel.value = PAYLOAD.agents[0].agent_id;
+renderDrill();
+</script>
+</body></html>
